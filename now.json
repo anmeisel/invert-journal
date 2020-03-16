@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "im-sorry-i-have-2-leave-the-lobby",
+  "name": "ashton-mills",
   "scope": "4-us-and-4-others",
   "builds": [
     { "src": "index.js", "use": "@now/node-server" },
@@ -17,6 +17,6 @@
   },
   "env": {
     "arenaPAT": "@arenapat",
-    "arenaChannel": "@trutharena"
+    "arenaChannel": "ashton"
   }
 }
