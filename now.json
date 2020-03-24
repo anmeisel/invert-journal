@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "ashton-mills",
+  "name": "invert-journal",
   "scope": "4-us-and-4-others",
   "builds": [
     { "src": "index.js", "use": "@now/node-server" },
@@ -16,7 +16,8 @@
     "silent": true
   },
   "env": {
-    "arenaPAT": "@arenapat",
-    "arenaChannel": "ashton"
+    "arenaPAT": "@invert-journal-arena_pat",
+    "arenaChannel": "@invert-journal-arena_channel",
+    "environment": "now"
   }
 }
