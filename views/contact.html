@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{{> components/ascii }}
+<html lang="en">
+	<head>
+		{{> components/head }}
+	</head>
+
+	<body class="background red access-new">
+		{{> components/nav }}
+		<div class="main2 access">
+			Email: <div class="special">contact [at] invertjournal [dot] org [dot] uk </div><br />
+			Twitter: <div class="special"><a class="access-new" target="_blank" href="https://twitter.com/InvertJournal">@InvertJournal</a></div
+			><br />
+			Facebook: <div class="special"><a class="access-new" target="_blank" href="https://www.facebook.com/invertjournal1/">@invertjournal1</a> </div
+			><br /><br />
+
+			<div class="container">
+				<form method="post" action="contact/send_mail.php">
+					<p>
+						<label
+							>Name <span class="asterisk">*</span>
+							<input type="text" name="first_name" required />
+						</label>
+					</p>
+					<p>
+						<label
+							>Email Address <span class="asterisk">*</span>
+							<input type="email" name="email_address" />
+						</label>
+					</p>
+					<p>
+						<label
+							>Comments
+							<textarea name="comments" maxlength="500"></textarea>
+						</label>
+					</p>
+					<p><button>Send</button></p>
+				</form>
+			</div>
+		</div>
+		{{> components/body-end }}
+	</body>
+</html>

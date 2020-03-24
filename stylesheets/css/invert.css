@@ -1,0 +1,784 @@
+html {
+    background-color: #ecb7b8;
+}
+
+body {
+    padding-top: 40px;
+    margin: 0px;
+    top: 0px;
+    font-family: garamond;
+    border-right: 30px solid #ecb7b8;
+    border-left: 30px solid #ecb7b8;
+    border-top: 30px solid #ecb7b8;
+    border-bottom: 70px solid #ecb7b8;
+    font-size: 19px;
+    background-color: white;
+}
+
+ul,
+menu,
+dir {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 0px;
+    margin-block-end: 0px;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 0px;
+}
+
+@font-face {
+    font-family: syne;
+    src: url(../../fonts/syne/Syne-Extra.otf);
+}
+
+header {
+    background-size: 100%;
+    background-repeat: no-repeat;
+    position: fixed;
+    height: 50px;
+    width: calc (100% - 30px);
+    top: 20px;
+    right: 30px;
+    left: 30px;
+    text-align: center;
+    transition: top 0.2s ease-in-out;
+}
+
+header li {
+    list-style: none;
+    display: inline-block;
+    padding: 20px 40px;
+    padding-bottom: 20px;
+}
+
+header a {
+    text-decoration: none;
+    font-weight: normal;
+    /*text-transform: uppercase;*/
+    font-family: syne;
+}
+
+header a:hover {
+    color: #ecb7b8;
+}
+
+label#container {
+    position: fixed;
+    width: 80px;
+    text-align: left;
+    left: 40px;
+    top: 40px;
+    color: black;
+    z-index: 9;
+    font-size: 1.1rem;
+}
+
+/* Hide the browser's default radio button */
+#container input {
+    opacity: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    height: 10px;
+    width: 10px;
+    border: 2px solid black;
+    bottom: 4px;
+    right: 30px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+#container:hover input ~ .checkmark {
+    /*background-color: #ecb7b8;*/
+}
+
+/* When the checkbox is checked, add a blue background */
+#container input:checked ~ .checkmark {
+    background-color: black;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+#container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+#container .checkmark:after {
+}
+
+.dark,
+.dark a,
+.dark p,
+.dark div {
+    color: black;
+    font-family: arial;
+    margin-bottom: 10px;
+}
+
+.subheading.dark p {
+    font-family: arial;
+    margin-bottom: 20px;
+}
+
+.dark-new {
+    background-color: #ecb7b8;
+}
+
+.dark a,
+.dark p a {
+    color: black;
+    font-family: arial;
+    text-decoration: underline;
+}
+
+.dark a:hover,
+.dark p a:hover {
+    color: red;
+}
+
+a.dark-new {
+    color: black;
+    text-decoration: none;
+}
+
+a.dark-new:hover {
+    color: red;
+}
+
+.dark-new div div a {
+    color: black;
+}
+
+.dark-new div div a:hover {
+    color: red;
+}
+
+.about {
+    font-size: 2.7vw;
+    width: 35vw;
+    float: right;
+    text-align: justify;
+    position: relative;
+}
+
+hr.style-one {
+    background-color: #de2b1f;
+    height: 2px;
+    border: none;
+    margin: 0px;
+}
+
+.abt {
+    margin-bottom: 30px;
+    width: 30vw;
+}
+
+small {
+    font-size: 14px;
+    font-family: garamond;
+}
+
+.abtimg {
+    position: relative;
+}
+
+.abtimg img {
+    width: 30vw;
+    float: left;
+    margin-right: 40px;
+    position: relative;
+}
+
+.intro {
+    margin-bottom: 30px;
+    overflow: hidden;
+    display: block;
+    z-index: 2;
+}
+
+.opencall {
+    overflow: hidden;
+    display: block;
+    margin-right: 10px;
+    margin-left: 10px;
+    font-weight: bold;
+    z-index: 2;
+}
+
+.opencall p {
+    line-height: 25px;
+}
+
+sup,
+sub {
+    vertical-align: baseline;
+    position: relative;
+    top: -0.4em;
+}
+sub {
+    top: 0.4em;
+}
+
+.opencall li {
+    margin-left: 30px;
+}
+
+.subheading p {
+    font-family: syne;
+    font-size: 25px;
+}
+
+.nav-up {
+    top: -85px;
+}
+
+.nav-down {
+}
+
+.main {
+    margin-right: 150px;
+    margin-left: 150px;
+    margin-bottom: 70px;
+    margin-top: 150px;
+}
+
+.opencall p {
+    z-index: 2;
+}
+
+.main a:hover {
+    color: #de2b1f;
+}
+
+.main2 {
+    margin-right: 150px;
+    margin-left: 150px;
+    margin-bottom: 70px;
+    margin-top: 150px;
+    min-height: 55vh;
+    font-size: 20px;
+}
+
+.main2 a {
+    margin: 0px;
+    text-decoration: underline;
+}
+
+.main2 a:hover {
+    color: #ecb7b8;
+}
+
+footer {
+    /* background: #ddd;*/
+    text-align: left;
+    font-size: 1.1875rem;
+    margin-left: 10px;
+    text-transform: lowercase;
+    font-family: syne;
+    position: absolute;
+    margin-bottom: 0px;
+    margin-top: 10px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+#site-name {
+    position: fixed;
+    bottom: 55px;
+    right: 40px;
+    text-align: right;
+    font-size: 2.2875rem;
+    width: 250px;
+    transition: 0.2s;
+    font-family: syne;
+}
+
+#site-name2 {
+    font-size: 1.1875rem;
+    font-family: syne;
+    position: absolute;
+    margin-bottom: 0px;
+    margin-top: 10px;
+    margin-right: 10px;
+    right: 20px;
+    text-align: right;
+    opacity: 0;
+}
+
+.topegg,
+.bottomegg {
+    position: absolute;
+    z-index: 0;
+    overflow-x: hidden;
+}
+
+.topegg img,
+.bottomegg img {
+    width: 500px;
+    overflow-x: hidden;
+    z-index: 0;
+}
+
+.topegg {
+    float: right;
+    right: 70px;
+    margin-top: -40px;
+}
+
+.bottomegg {
+    float: left;
+    left: 70px;
+    margin-top: -310px;
+}
+
+.special {
+    font-family: syne;
+    display: inline-block;
+}
+
+.special a {
+    text-decoration: none;
+}
+
+.no-idea {
+    position: relative;
+    font-size: 1.2em;
+    width: 80%;
+}
+
+/*articles*/
+
+.articles {
+    position: relative;
+    text-align: center;
+    margin: 0px 50px 0px 50px;
+}
+
+.arena-block {
+    margin: 20px;
+    text-align: left;
+    overflow: hidden;
+    overflow-x: ellipsis; /*make ellipsis work!*/
+    display: -webkit-box;
+    -webkit-line-clamp: 7;
+    -webkit-box-orient: vertical;
+    border-bottom: 2px solid black;
+    padding-bottom: 5px;
+}
+
+.description {
+    font-style: italic;
+    color: red;
+    font-weight: bold;
+}
+
+.arena-content {
+    font-size: 1.2em;
+    line-height: 1.3em;
+    z-index: 2;
+}
+
+.peek {
+    overflow: visible;
+    cursor: initial;
+    display: block;
+    border-bottom: none;
+}
+
+h2 {
+    display: inline-block;
+    margin: 0;
+    font-family: syne;
+    width: 90%;
+}
+
+.more {
+    display: inline-block;
+    font-family: garamond;
+    margin-right: 10px;
+    cursor: pointer;
+    vertical-align: top;
+    margin-top: 5px;
+    font-size: 1.1rem;
+}
+
+.more:hover {
+    color: red;
+}
+
+.reverse {
+    transform: rotateX(180deg);
+}
+
+/*contact*/
+
+body.background {
+    background-image: none;
+}
+
+body.red {
+    background-image: url("../../assets/images/invertbackground.png");
+    background-size: cover;
+}
+
+input[type="text"],
+select,
+textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+    background: transparent;
+}
+
+input[type="email"],
+select,
+textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+    background: transparent;
+}
+
+button,
+input[type="submit"] {
+    padding: 12px 20px;
+    border: 2px solid black;
+    border-radius: 4px;
+    background: transparent;
+    font: inherit;
+}
+
+textarea,
+input {
+    padding: 12px 20px;
+    border: 2px solid black;
+    border-radius: 4px;
+    background: transparent;
+    font: inherit;
+}
+
+button,
+input[type="submit"]:hover {
+    cursor: pointer;
+}
+
+.container {
+    width: 50vw;
+    padding-top: 10px;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+    background: transparent;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/*mailchimp*/
+
+.container {
+    width: 50vw;
+    padding-top: 10px;
+}
+
+@media (max-width: 1178px) {
+    .main {
+        margin-right: 10vw;
+        margin-left: 10vw;
+    }
+
+    .main2 {
+        margin-right: 10vw;
+        margin-left: 10vw;
+    }
+
+    body {
+        border-right: 3vw solid #ecb7b8;
+        border-left: 3vw solid #ecb7b8;
+        border-top: 3vw solid #ecb7b8;
+    }
+
+    header {
+        margin-top: 20px;
+    }
+
+    /*.bottomegg {
+  margin-top: -250px;
+}
+*/
+}
+
+@media (min-width: 1177px) {
+    header li {
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 1300px) {
+    .opencall {
+        padding-right: 150px;
+    }
+
+    .intro {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 1000px) {
+    /*.topegg {
+  margin-top: -25px;
+}
+
+.bottomegg {
+  margin-top: -200px;
+}*/
+
+    .abtimg img {
+        padding-top: 0px;
+        margin-top: 0px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    body {
+        border-right: 3vw solid #ecb7b8;
+        border-left: 3vw solid #ecb7b8;
+        border-top: 3vw solid #ecb7b8;
+        font-size: 1em;
+    }
+
+    header {
+        width: 75vw;
+        margin-left: auto;
+        margin-right: auto;
+        float: none;
+        padding: 0;
+        border: 0;
+        margin: 0;
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    .main {
+        margin-right: 5vw;
+        margin-left: 5vw;
+        margin-top: 0px;
+        font-size: 1em;
+    }
+
+    .main2 {
+        margin-right: 5vw;
+        margin-left: 5vw;
+        margin-top: 0px;
+        font-size: 1em;
+        padding-bottom: 30px;
+    }
+
+    .about {
+        font-size: 1em;
+    }
+
+    /*header {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 40px;
+}*/
+
+    /*footer {
+  font-size: 40px;
+}
+
+.special, .subheading p{
+  font-size: 40px;
+  text-align: left;
+}*/
+
+    /*header li {
+  display: block;
+}*/
+
+    .nav-up {
+        top: -100px;
+    }
+
+    #site-name {
+        position: fixed;
+        bottom: 0px;
+        right: 20px;
+        text-align: right;
+        font-size: 2.2875rem;
+        width: 250px;
+        transition: 0.2s;
+        font-family: syne;
+        z-index: 3;
+    }
+
+    /* #site-name {
+    display: none;
+}
+
+#site-name2 {
+    opacity: 1;
+    font-size: 40px;
+} */
+
+    .about {
+        width: 70vw;
+        margin-left: auto;
+        margin-right: auto;
+        float: none;
+        margin-bottom: 60px;
+    }
+
+    .abtimg img {
+        display: block;
+        width: 70vw;
+        margin-left: auto;
+        margin-right: auto;
+        float: none;
+        margin-top: 15px;
+    }
+
+    .abt {
+        width: 70vw;
+        margin-left: auto;
+        margin-right: auto;
+        padding-bottom: 20px;
+    }
+
+    .opencall {
+        padding-right: 0px;
+        margin-top: 0px;
+    }
+
+    .container {
+        width: 100%;
+    }
+
+    .mc-field-group {
+        width: 100%;
+    }
+
+    /*.bottomegg {
+  margin-top: -250px;
+}
+*/
+}
+
+@media (max-width: 760px) {
+    header li {
+        padding-top: 0px;
+    }
+
+    /*#site-name {
+    display: none;
+}
+
+#site-name2 {
+    opacity: 1;
+}*/
+
+    .opencall {
+        margin-top: 30px;
+        margin-bottom: 30px;
+        padding-top: 0px;
+    }
+
+    .main,
+    .main2 {
+        margin-top: 160px;
+    }
+
+    .about {
+        margin-bottom: 30px;
+        width: 70vw;
+        font-size: 20px;
+        margin-left: auto;
+        margin-right: auto;
+        float: none;
+    }
+
+    header li {
+        display: block;
+    }
+
+    .abtimg img {
+        display: block;
+        width: 280px;
+        margin-left: auto;
+        margin-right: auto;
+        float: none;
+    }
+
+    .abt {
+        padding-bottom: 30px;
+    }
+
+    .subheading p {
+        text-align: center;
+    }
+
+    .nav-up {
+        top: -185px;
+    }
+
+    .opencall {
+        padding-right: 0px;
+        margin-top: 0px;
+    }
+}
+
+@media (max-width: 650px) {
+    .topegg img {
+        width: 300px;
+    }
+
+    .topegg {
+        margin-right: 10px;
+        right: 10px;
+        width: 300px;
+    }
+
+    .bottomegg img {
+        width: 300px;
+    }
+
+    .bottomegg {
+        position: absolute;
+        margin-bottom: 0px;
+        margin-top: -150px;
+        margin-left: 10px;
+        left: 10px;
+        width: 300px;
+    }
+}

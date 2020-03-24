@@ -1,5 +1,42 @@
-<div class="nav">
-    <div class="nav-home">
-        <img src="/assets/4us.png">
-    </div>
-</div>
+<label id="container"
+    >friendly look
+    <input type="checkbox" id="textCheckbox" />
+    <span class="checkmark"></span>
+</label>
+
+<header class="nav-down access">
+    <h2>
+        <ul
+            ><b>
+                <li><a class="access-new" href="/">about</a></li>
+                <li><a class="access-new" href="/articles">articles</a></li>
+                <li><a class="access-new" href="/support">support</a></li>
+                <li><a class="access-new" href="/contact">contact</a></li>
+            </b></ul
+        >
+    </h2>
+</header>
+
+<h1 id="site-name">
+    <a
+        >invert<br />
+        journal</a
+    >
+</h1>
+
+<script>
+    // checkbox
+    $(document).ready(function() {
+        $("#textCheckbox").on("click", function() {
+            if ($(this).is(":checked")) {
+                $(".access").addClass("dark")
+                $(".access-new").addClass("dark-new")
+                $(".background").removeClass("red")
+            } else {
+                $(".access").removeClass("dark")
+                $(".access-new").removeClass("dark-new")
+                $(".background").addClass("red")
+            }
+        })
+    })
+</script>
