@@ -205,6 +205,7 @@ small {
     overflow: hidden;
     display: block;
     z-index: 2;
+    position: relative;
 }
 
 .opencall {
@@ -387,7 +388,8 @@ a {
 }
 
 .arena-content {
-    font-size: 1.2em;
+    /*font-size: 1.2em;
+    line-height: 1.3em;*/
     line-height: 1.3em;
     z-index: 2;
 }
