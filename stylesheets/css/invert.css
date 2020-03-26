@@ -462,6 +462,8 @@ footer {
     opacity: 0;
 }
 
+/* media */
+
 @media (max-width: 1178px) {
     .main {
         margin-right: 10vw;

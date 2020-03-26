@@ -60,18 +60,6 @@
 </html>
 
 <script>
-    //articles: read more
-    // $(document).ready(function() {
-    //     $(".more-{{articles.post}}").click(function() {
-    //         $(this)
-    //             .parent()
-    //             .parent()
-    //             .toggleClass("peek")
-    //         $(this).toggleClass("reverse")
-    //         toggleClass("ellipsis")
-    //     })
-    // })
-
     {{#articles}}
         $(window).on("load", function() {
             $("#more-{{articles.post}}")
