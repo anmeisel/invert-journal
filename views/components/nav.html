@@ -1,5 +1,5 @@
-<label id="container" class="access"
-    >friendly look
+<label id="drop-down" class="access"
+    >Friendly look
     <input type="checkbox" id="textCheckbox" />
     <span class="checkmark"></span>
 </label>
@@ -8,10 +8,10 @@
     <h2>
         <ul
             ><b>
-                <li><a class="access-new" href="/">about</a></li>
-                <li><a class="access-new" href="/articles">articles</a></li>
-                <li><a class="access-new" href="/support">support</a></li>
-                <li><a class="access-new" href="/contact">contact</a></li>
+                <li><a class="access" href="/">about</a></li>
+                <li><a class="access" href="/articles">articles</a></li>
+                <li><a class="access" href="/support">support</a></li>
+                <li><a class="access" href="/contact">contact</a></li>
             </b></ul
         >
     </h2>
@@ -29,12 +29,12 @@
     $(document).ready(function() {
         $("#textCheckbox").on("click", function() {
             if ($(this).is(":checked")) {
-                $(".access").addClass("dark")
-                $(".access-new").addClass("dark-new")
+                $(".access").addClass("accessibility")
+                $(".access-no-red").addClass("accessibility-no-red")
                 $(".background").removeClass("red")
             } else {
-                $(".access").removeClass("dark")
-                $(".access-new").removeClass("dark-new")
+                $(".access").removeClass("accessibility")
+                $(".access-no-red").removeClass("accessibility-no-red")
                 $(".background").addClass("red")
             }
         })

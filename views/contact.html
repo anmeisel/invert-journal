@@ -5,36 +5,36 @@
 		{{> components/head }}
 	</head>
 
-	<body class="background red access-new">
+	<body class="background red access-no-red">
 		{{> components/nav }}
 		<div class="main2 access">
-			Email: <div class="special">contact [at] invertjournal [dot] org [dot] uk </div><br />
-			Twitter: <div class="special"><a class="access-new" target="_blank" href="https://twitter.com/InvertJournal">@InvertJournal</a></div
+			Email: <div class="social access">contact [at] invertjournal [dot] org [dot] uk </div><br />
+			Twitter: <div class="social access"><a target="_blank" href="https://twitter.com/InvertJournal">@InvertJournal</a></div
 			><br />
-			Facebook: <div class="special"><a class="access-new" target="_blank" href="https://www.facebook.com/invertjournal1/">@invertjournal1</a> </div
-			><br /><br />
+			Facebook:
+			<div class="social access"><a target="_blank" href="https://www.facebook.com/invertjournal1/">@invertjournal1</a> </div><br /><br />
 
-			<div class="container">
+			<div class="mail-container">
 				<form method="post" action="contact/send_mail.php">
-					<p>
+					<div class="support-button">
 						<label
 							>Name <span class="asterisk">*</span>
 							<input type="text" name="first_name" required />
 						</label>
-					</p>
-					<p>
+					</div>
+					<div class="support-button">
 						<label
-							>Email Address <span class="asterisk">*</span>
+							>Email address <span class="asterisk">*</span>
 							<input type="email" name="email_address" />
 						</label>
-					</p>
-					<p>
+					</div>
+					<div class="support-button">
 						<label
 							>Comments
 							<textarea name="comments" maxlength="500"></textarea>
 						</label>
-					</p>
-					<p><button>Send</button></p>
+					</div>
+					<button>Send</button>
 				</form>
 			</div>
 		</div>
