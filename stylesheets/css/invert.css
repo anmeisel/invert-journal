@@ -15,6 +15,12 @@
 	--type3-family: arial;
 	--little-font-size: 1rem;
 	--mid-font-size: 1.1875rem;
+
+	/* dark theme */
+	--type1-hover-color-dark: #444;
+	--type3-color-dark: #111;
+	--type3-family-dark: arial;
+	--type3-hover-color-dark: #444;
 }
 
 html {
@@ -159,6 +165,8 @@ select#drop-down {
 	display: block;
 }
 
+/* themes */
+
 body.accessibility-no-red,
 body.accessibility {
 	background-color: var(--type1-hover-color);
@@ -186,6 +194,35 @@ h3 .accessibility {
 .social.accessibility a:hover,
 .accessibility p a:hover {
 	color: var(--type3-hover-color);
+}
+
+body.dark-no-red,
+body.dark {
+	background-color: var(--type1-hover-color-dark);
+	color: var(--type3-color-dark);
+	font-family: var(--type3-family-dark);
+	text-decoration: none;
+}
+
+.dark,
+.dark p,
+.dark p,
+.dark div,
+h2 .dark,
+h3 .dark {
+	color: var(--type3-color-dark);
+	font-family: var(--type3-family-dark);
+	text-decoration: none;
+}
+
+.dark p a {
+	text-decoration: underline;
+}
+
+.dark a:hover,
+.social.dark a:hover,
+.dark p a:hover {
+	color: var(--type3-hover-color-dark);
 }
 
 /* index */

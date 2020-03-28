@@ -1,6 +1,7 @@
 <select id="drop-down" class="access">
 	<option value="journal" selected>Journal</option>
 	<option value="friendly">Friendly</option>
+	<!-- <option value="dark">Dark</option> -->
 </select>
 
 <div class="support-button-buy"
@@ -46,27 +47,35 @@
 		createCookie(name, "", -1)
 	}
 
+	function theme_friendly() {
+		$(".access").toggleClass("accessibility")
+		$(".access-no-red").toggleClass("accessibility-no-red")
+		$(".background").toggleClass("red")
+	}
+
+	function theme_dark() {
+		$(".access").toggleClass("dark")
+		$(".access-no-red").toggleClass("dark-no-red")
+		$(".background").toggleClass("red")
+	}
+
 	$("#drop-down").change(function() {
 		const selected = $(this).val()
 		console.log(`selected is ${selected}`)
 
 		if (selected === "friendly") {
-			$(".access").addClass("accessibility")
-			$(".access-no-red").addClass("accessibility-no-red")
-			$(".background").removeClass("red")
+			theme_friendly()
 			createCookie("pre", "prelight", 1000)
+		} else if (selected === "dark") {
+			theme_dark()
 		} else {
-			$(".access").removeClass("accessibility")
-			$(".access-no-red").removeClass("accessibility-no-red")
-			$(".background").addClass("red")
+			theme_friendly()
 			eraseCookie("pre", "prelight")
 		}
 	})
 
 	if (readCookie("pre")) {
-		$(".access").addClass("accessibility")
-		$(".access-no-red").addClass("accessibility-no-red")
-		$(".background").removeClass("red")
+		theme_friendly()
 		$("#drop-down")
 			.val("friendly")
 			.selected()
