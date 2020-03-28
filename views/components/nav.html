@@ -61,8 +61,6 @@
 
 	$("#drop-down").change(function() {
 		const selected = $(this).val()
-		console.log(`selected is ${selected}`)
-
 		if (selected === "friendly") {
 			theme_friendly()
 			createCookie("pre", "prelight", 1000)
