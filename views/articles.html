@@ -10,6 +10,14 @@
         {{> components/nav }}
         <div class="main3 access">
             <div class="intro articles">
+                <div class="arena-block">
+                    <div class="arena-block-metadata access">
+                        We will publishing weekly articles from our journal. Follow us on
+                        <a target="_blank" href="https://twitter.com/InvertJournal">Twitter</a> and
+                        <a target="_blank" href="https://www.facebook.com/invertjournal1/">Facebook</a> to keep track or <a href="">buy</a> our journal to read
+                        it all in one go! Otherwise, have a look at our editorial here →
+                    </div>
+                </div>
                 {{# arena }}
                 <div class="arena-block" id="section_{{ id }}">
                     <div class="arena-block-title" id="{{ truncTitle }}">
@@ -21,37 +29,9 @@
                         <span class="description">{{{ description_html }}}</span>
                         {{/ description_html }}
                     </div>
-                    <div class="more" id="more-{{ id }}"><u>Read</u></div>
-                    <!-- {{# content_html }}
-                        <span class="arena-content">{{{ content_html }}}</span>
-                        {{/ content_html }} {{# metadata }}
-                        <span class="description" id="metadata_{{id}}"
-                            ><br />
-                            <mark-down breaks>{{{ description }}}</mark-down>
-                        </span>
-                        {{/ metadata }}
-                        <a href="?view=articles&post={{{ id }}}#{{{truncTitle}}}" class="datestamp access">Posted on {{{connected_at}}}</a>
-                    </div>
-
-                    {{# embed }}
-                    <div id="embed-block_{{ id }}" class="embed-block"><br />{{{ html }}} </div>
-                    {{/ embed }} {{^ embed }} {{# source }} {{# url }}<br />
-                    <a target="_blank" href="{{ url }}">{{ url }}</a>
-                    {{/ url }} {{# image }}<br />
-                    <div class="url-block">
-                        <img id="url-block-image_{{ id }}" class="url-block-image" src="{{# display }}{{{ url }}}{{/ display }}" />
-                    </div>
-                    {{/ image }} {{/ source }} {{^ source }} {{# attachment }}<br />
-                    <div id="video-block_{{ id }}" class="video-block">
-                        <video id="video-block-attachment_{{ id }}" class="video-block-attachment" loop controls playsinline autoplay muted preload="auto">
-                            <source src="{{{ static_url }}}{{ file_name }}" type="{{{ content_type }}}" />
-                        </video>
-                    </div>
-                    {{/ attachment }} {{# image }}<br />
-                    <div class="image-block">
-                        <img id="image-block-image_{{ id }}" class="image-block-image" src="{{# display }}{{{ url }}}{{/ display }}" />
-                    </div>
-                    {{/ image }} {{/ source }} {{/ embed }} -->
+                    <div class="more" id="more-{{ id }}"
+                        ><u><a target="_blank" href="/editorial" class="arena-block-date">Read</a></u></div
+                    >
                 </div>
                 {{/ arena }}
             </div>

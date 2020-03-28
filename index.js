@@ -199,6 +199,75 @@ app.get('/articles', async function(req, res) {
     })
 })
 
+app.get('/editorial', async function(req, res) {
+  const view = req.query.view
+  const arena = new Arena({ accessToken: process.env.arenaPAT })
+  arena
+    .channel(process.env.arenaChannel)
+    .get({
+      page: 1, // get the first page of results
+      per: 64, // get 64 items per call (max: 100) - play around w this for performance
+      direction: 'desc' // ask API v nicely to sort blocks by most recent
+    })
+    .then(channel => {
+      // fetch our whole are.na channel as `channel`
+
+      const config = yaml.safeLoad(channel.metadata.description) // get our site description from our are.na channel description - since it is loaded in as yaml, we can access it's values with `config.key`, ex: for title, we can use `config.details.title`
+      const contents = channel.contents // clean up the results a little bit, and make the channel's contents available as a constant, `contents`
+
+      contents.forEach(contentItem => {
+        var trunc = contentItem.title
+        trunc = trunc
+          .replace(/\s+/g, '-')
+          .replace('€', 'e')
+          .replace('£', 'e')
+          .replace('$', 's')
+          .toLowerCase()
+        contentItem.truncTitle = trunc
+        // console.log(contentItem.truncTitle)
+      })
+
+      const about = contents.pop() // pop last block (in this case, "about"), out of array, and then pass it to the render below
+
+      if (view === 'channel') {
+        // @@ -107,6 +121,16 @@ app.get('/articles', async function(req, res) {
+        res.send(contents)
+      } else if (view === 'about') {
+        // append `?view=about` to the end of your URL to see "about" as JSON
+        res.send(about)
+      } else if (view) {
+        // get our URL contents and pass them to the view
+        const articles = req.query
+        res.render('editorial.html', {
+          static_url: cdn,
+          config,
+          articles,
+          about,
+          arena: contents // pass our are.na channel contents into the render for use w mustache.js by using `{{arena}}` - see views/arena.html
+        })
+      } else {
+        res.render('editorial.html', {
+          static_url: cdn,
+          config,
+          about,
+          arena: contents // pass our are.na channel contents into the render for use w mustache.js by using `{{arena}}` - see views/arena.html
+        })
+      }
+    })
+    .catch(err => {
+      // handle errors
+
+      cache.details.title = 'Error 😭' // change the value of cache.details.title (loaded from ./api/config.yaml) to reflect an error
+
+      console.log(err)
+      res.render('editorial.html', {
+        title: 'Error 😭',
+        static_url: cdn,
+        config: cache
+      })
+    })
+})
+
 app.get('/support', async function(req, res) {
   const view = req.query.view
   const arena = new Arena({ accessToken: process.env.arenaPAT })
