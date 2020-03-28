@@ -405,6 +405,7 @@ input[type="submit"] {
 	border-radius: 4px;
 	background: transparent;
 	font: inherit;
+	color: black;
 }
 
 textarea,
