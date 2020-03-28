@@ -1,4 +1,4 @@
-// Hide header and minimise site name on scroll down
+// header minimise on scroll down
 
 window.onscroll = function() {
 	scrollFunction()
@@ -18,4 +18,25 @@ function scrollFunction() {
 	}
 }
 
+// themes toggle
 
+const toggler2 = document.getElementById('dropdown-toggle-2')
+const state2 = document.getElementById('dropdown-state-2')
+
+toggler2.addEventListener('click', e => {
+	e.stopPropagation()
+	if (state2.checked) {
+		state2.checked = false
+	} else {
+		state2.checked = true
+	}
+})
+
+document.getElementsByTagName('body')[0].addEventListener('click', () => {
+	if (state1.checked) {
+		state1.checked = false
+	}
+	if (state2.checked) {
+		state2.checked = false
+	}
+})

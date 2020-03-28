@@ -8,18 +8,21 @@
     <body class="access">
         <div class="topegg"><img src="././assets/images/egg2.png"/></div>
         {{> components/nav }}
-        <div class="main">
+        <div class="main2 access">
             <div class="intro articles">
                 {{# arena }}
                 <div class="arena-block" id="section_{{ id }}">
                     <div class="arena-block-title" id="{{ truncTitle }}">
                         <h2 class="access">{{ title }}</h2>
-                        <div class="more" id="more-{{ id }}"><u>Read:</u></div>
                     </div>
                     <div class="arena-block-metadata access">
                         {{# description_html }}
+                        <span class="by">By</span>
                         <span class="description">{{{ description_html }}}</span>
-                        {{/ description_html }} {{# content_html }}
+                        {{/ description_html }}
+                    </div>
+                    <div class="more" id="more-{{ id }}"><u>Read</u></div>
+                    <!-- {{# content_html }}
                         <span class="arena-content">{{{ content_html }}}</span>
                         {{/ content_html }} {{# metadata }}
                         <span class="description" id="metadata_{{id}}"
@@ -42,15 +45,14 @@
                     <div id="video-block_{{ id }}" class="video-block">
                         <video id="video-block-attachment_{{ id }}" class="video-block-attachment" loop controls playsinline autoplay muted preload="auto">
                             <source src="{{{ static_url }}}{{ file_name }}" type="{{{ content_type }}}" />
-                            <!-- fix this -->
                         </video>
                     </div>
                     {{/ attachment }} {{# image }}<br />
                     <div class="image-block">
                         <img id="image-block-image_{{ id }}" class="image-block-image" src="{{# display }}{{{ url }}}{{/ display }}" />
                     </div>
-                    {{/ image }} {{/ source }} {{/ embed }} </div
-                ><br />
+                    {{/ image }} {{/ source }} {{/ embed }} -->
+                </div>
                 {{/ arena }}
             </div>
         </div>

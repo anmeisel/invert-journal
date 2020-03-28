@@ -1,42 +1,44 @@
 <label id="drop-down" class="access"
-    >Friendly look
-    <input type="checkbox" id="textCheckbox" />
-    <span class="checkmark"></span>
+	>Friendly look
+	<input type="checkbox" id="textCheckbox" />
+	<span class="checkmark"></span>
 </label>
 
+<div class="support-button-buy"><input type="submit" value="Buy" name="buy" id="mc-embedded-buy"/></div>
+
 <header class="nav-down access">
-    <h2>
-        <ul
-            ><b>
-                <li><a class="access" href="/">about</a></li>
-                <li><a class="access" href="/articles">articles</a></li>
-                <li><a class="access" href="/support">support</a></li>
-                <li><a class="access" href="/contact">contact</a></li>
-            </b></ul
-        >
-    </h2>
+	<h2>
+		<ul
+			><b>
+				<li><a class="access" href="/">about</a></li>
+				<li><a class="access" href="/articles">articles</a></li>
+				<li><a class="access" href="/support">support</a></li>
+				<li><a class="access" href="/contact">contact</a></li>
+			</b></ul
+		>
+	</h2>
 </header>
 
 <h1 id="site-name">
-    <a
-        >invert<br />
-        journal</a
-    >
+	<a
+		>invert<br />
+		journal</a
+	>
 </h1>
 
 <script>
-    // checkbox
-    $(document).ready(function() {
-        $("#textCheckbox").on("click", function() {
-            if ($(this).is(":checked")) {
-                $(".access").addClass("accessibility")
-                $(".access-no-red").addClass("accessibility-no-red")
-                $(".background").removeClass("red")
-            } else {
-                $(".access").removeClass("accessibility")
-                $(".access-no-red").removeClass("accessibility-no-red")
-                $(".background").addClass("red")
-            }
-        })
-    })
+	// checkbox
+	$(document).ready(function() {
+		$("#textCheckbox").on("click", function() {
+			if ($(this).is(":checked")) {
+				$(".access").addClass("accessibility")
+				$(".access-no-red").addClass("accessibility-no-red")
+				$(".background").removeClass("red")
+			} else {
+				$(".access").removeClass("accessibility")
+				$(".access-no-red").removeClass("accessibility-no-red")
+				$(".background").addClass("red")
+			}
+		})
+	})
 </script>

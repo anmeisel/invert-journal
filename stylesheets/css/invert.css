@@ -101,7 +101,16 @@ sub {
 .nav-down {
 }
 
-/* themes toggle */
+.support-button-buy {
+	position: fixed;
+	right: 40px;
+	top: 40px;
+	color: var(--type3-color);
+	z-index: 2;
+	font-size: var(--little-font-size);
+}
+
+/* friendly toggle */
 
 label {
 	margin: 0px;
@@ -137,20 +146,14 @@ label#drop-down {
 	background-color: black;
 }
 
-/* create the checkmark/indicator (hidden when not checked) */
 .checkmark:after {
 	content: "";
 	position: absolute;
 	display: none;
 }
 
-/* show the checkmark when checked */
 #drop-down input:checked ~ .checkmark:after {
 	display: block;
-}
-
-/* style the checkmark/indicator */
-#drop-down .checkmark:after {
 }
 
 body.accessibility-no-red,
@@ -181,7 +184,7 @@ h3 .accessibility {
 /* index */
 
 .main {
-	margin: 150px 150px 70px 150px;
+	margin: 125px 150px 70px 150px;
 }
 
 .main a:hover {
@@ -258,39 +261,39 @@ small {
 /* articles */
 
 .articles {
-	position: relative;
-	text-align: center;
-	margin: 0px 50px 0px 50px;
+	display: flex;
+	justify-content: center;
+	vertical-align: top;
+	top: 0px;
 }
 
 .arena-block {
+	width: 20vw;
 	margin: 20px;
-	text-align: left;
-	overflow: hidden;
-	overflow-x: ellipsis; /* make ellipsis work? */
-	display: -webkit-box;
-	-webkit-line-clamp: 7;
-	-webkit-box-orient: vertical;
-	border-bottom: 2px solid black;
-	padding-bottom: 5px;
+}
+
+.by {
+	display: inline-block;
+	vertical-align: top;
 }
 
 .description {
+	display: inline-block;
+	vertical-align: top;
+	top: 0px;
+	width: calc(20vw - 25px);
 	font-style: italic;
 	color: var(--type3-hover-color);
 	font-weight: bold;
 }
 
+.description p {
+	margin: 0px;
+}
+
 .arena-content {
 	line-height: 1.3em;
 	z-index: 2;
-}
-
-.peek {
-	overflow: visible;
-	cursor: initial;
-	display: block;
-	border-bottom: none;
 }
 
 .more {
@@ -299,24 +302,20 @@ small {
 	cursor: pointer;
 	vertical-align: top;
 	margin-top: 5px;
-	font-size: var(--type2-size);
+	font-size: 1rem;
 }
 
 .more:hover {
 	color: var(--type3-hover-color);
 }
 
-.reverse {
-	transform: rotateX(180deg);
-}
-
 /* contact and support */
 
 .main2 {
-	margin: 150px;
+	margin: 125px 150px 70px 150px;
 	margin-bottom: 0px;
 	font-size: var(--type2-size);
-	min-height: 58.5vh;
+	min-height: 61.5vh;
 }
 
 .main2 a {
@@ -333,6 +332,7 @@ h2 {
 	margin: 0;
 	font-family: var(--type1);
 	width: 90%;
+	font-size: 1.2rem;
 }
 
 h3 {
