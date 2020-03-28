@@ -1,0 +1,57 @@
+/* mailchimp */
+
+input {
+	padding: 5px;
+}
+
+input[type="text"],
+input[type="email"],
+select,
+textarea {
+	display: block;
+	width: 50%;
+	border-radius: 4px;
+	box-sizing: border-box;
+	margin-top: 10px;
+	resize: vertical;
+	background: transparent;
+}
+
+button,
+input[type="submit"] {
+	border: 2px solid black;
+	border-radius: 4px;
+	background: transparent;
+	font: inherit;
+}
+
+textarea,
+input {
+	border: 2px solid black;
+	border-radius: 4px;
+	background: transparent;
+	font: inherit;
+}
+
+button,
+input[type="submit"]:hover {
+	cursor: pointer;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+	outline: none;
+	background: transparent;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+	-webkit-box-shadow: 0 0 0px 1000px transparent inset;
+	transition: background-color 5000s ease-in-out 0s;
+}
+.mc-field-group {
+	margin-bottom: 10px;
+}
