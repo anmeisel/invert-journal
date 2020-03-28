@@ -394,7 +394,7 @@ textarea {
 	width: 50%;
 	border-radius: 4px;
 	box-sizing: border-box;
-	margin-top: 10px 0px 10px;
+	margin-top: 10px;
 	resize: vertical;
 	background: transparent;
 }
@@ -433,6 +433,23 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
 	-webkit-box-shadow: 0 0 0px 1000px transparent inset;
 	transition: background-color 5000s ease-in-out 0s;
+}
+
+.buy-button {
+	display: inline-block;
+	padding: 5px;
+	border: 2px solid black;
+	border-radius: 4px;
+	background: transparent;
+	font: inherit;
+}
+
+.buy-button a {
+	text-decoration: none;
+}
+
+.buy-button a:hover {
+	color: black;
 }
 
 .mc-field-group {
