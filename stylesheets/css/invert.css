@@ -151,9 +151,13 @@ label#drop-down {
 body.accessibility-no-red,
 body.accessibility {
 	background-color: var(--type1-hover-color);
+	color: var(--type3-color);
+	font-family: var(--type3-family);
+	text-decoration: none;
 }
 
 .accessibility,
+.accessibility p,
 .accessibility p,
 .accessibility div,
 h2 .accessibility,
@@ -275,6 +279,10 @@ small {
 	margin-top: -20px;
 }
 
+.articles h2 {
+	width: 90%;
+}
+
 .arena-block {
 	width: 25vw;
 	margin: 20px;
@@ -283,6 +291,7 @@ small {
 .by {
 	display: inline-block;
 	vertical-align: top;
+	margin-top: 10px;
 }
 
 .description {
@@ -296,7 +305,7 @@ small {
 }
 
 .description p {
-	margin: 0px;
+	margin: 10px 0px 10px 0px;
 }
 
 .arena-content {
@@ -323,7 +332,7 @@ small {
 	margin: 125px 150px 70px 150px;
 	margin-bottom: 0px;
 	font-size: var(--type2-size);
-	min-height: 61vh;
+	min-height: 61.5vh;
 }
 
 .main2 a {
@@ -338,14 +347,13 @@ small {
 h2 {
 	display: inline-block;
 	margin: 0;
-	font-family: var(--type1);
-	width: 90%;
+	/*font-family: var(--type1);*/
 	font-size: 1.2rem;
 }
 
 h3 {
-	font-family: var(--type1);
-	font-size: 25px;
+	/*font-family: var(--type1);*/
+	font-size: 1.2rem;
 	margin-bottom: 10px;
 	width: 75%;
 }
