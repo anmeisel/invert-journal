@@ -14,6 +14,7 @@
 	--type3-color: initial; /*black*/
 	--type3-family: arial;
 	--little-font-size: 1rem;
+	--mid-font-size: 1.1875rem;
 }
 
 html {
@@ -47,28 +48,26 @@ dir {
 }
 
 header {
-	background-size: 100%;
-	background-repeat: no-repeat;
-	position: fixed;
-	height: 50px;
-	width: calc(100% - 30px);
-	top: 20px;
-	right: 30px;
-	left: 30px;
+	display: flex;
+	justify-content: center;
+	flex-direction: row;
+	width: 100%;
+	left: 0px;
 	text-align: center;
+	top: 25px;
+	position: fixed;
 	transition: top 0.2s ease-in-out;
 }
 
 header li {
 	display: inline-block;
-	list-style: none;
-	padding: 20px 40px;
-	padding-bottom: 20px;
+	text-decoration: none;
+	margin: 10px 20px 10px 20px;
+	font-size: var(--mid-font-size);
 }
 
 header a {
 	text-decoration: none;
-	font-weight: normal;
 	font-family: var(--type1);
 }
 
@@ -90,15 +89,8 @@ sub {
 	top: -0.4em;
 }
 
-sub {
-	top: 0.4em;
-}
-
 .nav-up {
 	top: -85px;
-}
-
-.nav-down {
 }
 
 .support-button-buy {
@@ -199,12 +191,13 @@ h3 .accessibility {
 	position: relative;
 }
 
-.about-left {
+.about-right {
 	font-size: 2em;
 	width: 35vw;
 	float: right;
 	text-align: justify;
 	position: relative;
+	font-weight: normal;
 }
 
 hr.red-line {
@@ -214,16 +207,16 @@ hr.red-line {
 	margin: 0px;
 }
 
-.about-right {
+.about-left {
 	margin-bottom: 30px;
 	width: 30vw;
 }
 
-.about-right-image {
+.about-left-image {
 	position: relative;
 }
 
-.about-right-image img {
+.about-left-image img {
 	width: 30vw;
 	float: left;
 	margin-right: 40px;
@@ -260,15 +253,30 @@ small {
 
 /* articles */
 
+.main3 {
+	margin-top: 125px;
+	font-size: var(--type2-size);
+	min-height: 64vh;
+}
+
+.main3 a {
+	margin: 0px;
+	text-decoration: underline;
+}
+
+.main3 a:hover {
+	color: var(--type1-hover-color);
+}
+
 .articles {
 	display: flex;
 	justify-content: center;
-	vertical-align: top;
-	top: 0px;
+	flex-direction: row;
+	margin-top: -20px;
 }
 
 .arena-block {
-	width: 20vw;
+	width: 25vw;
 	margin: 20px;
 }
 
@@ -281,7 +289,7 @@ small {
 	display: inline-block;
 	vertical-align: top;
 	top: 0px;
-	width: calc(20vw - 25px);
+	width: calc(25vw - 25px);
 	font-style: italic;
 	color: var(--type3-hover-color);
 	font-weight: bold;
@@ -315,7 +323,7 @@ small {
 	margin: 125px 150px 70px 150px;
 	margin-bottom: 0px;
 	font-size: var(--type2-size);
-	min-height: 61.5vh;
+	min-height: 61vh;
 }
 
 .main2 a {
@@ -429,7 +437,7 @@ input:-webkit-autofill:focus {
 
 footer {
 	text-align: left;
-	font-size: 1.1875rem;
+	font-size: var(--mid-font-size);
 	margin-left: 10px;
 	text-transform: lowercase;
 	font-family: var(--type1);
@@ -450,7 +458,7 @@ footer {
 }
 
 #site-name2 {
-	font-size: 1.1875rem;
+	font-size: var(--mid-font-size);
 	font-family: var(--type1);
 	position: absolute;
 	margin-bottom: 0px;
@@ -472,21 +480,6 @@ footer {
 	.main2 {
 		margin-right: 10vw;
 		margin-left: 10vw;
-	}
-
-	body {
-		border: 3vw solid var(--type1-hover-color);
-		border-bottom: none;
-	}
-
-	header {
-		margin-top: 20px;
-	}
-}
-
-@media (min-width: 1177px) {
-	header li {
-		margin-top: 20px;
 	}
 }
 

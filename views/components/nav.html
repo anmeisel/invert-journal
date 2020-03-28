@@ -1,22 +1,16 @@
 <label id="drop-down" class="access"
-	>Friendly look
+	>friendly look
 	<input type="checkbox" id="textCheckbox" />
 	<span class="checkmark"></span>
 </label>
 
-<div class="support-button-buy"><input type="submit" value="Buy" name="buy" id="mc-embedded-buy"/></div>
+<div class="support-button-buy"><input type="submit" value="buy" name="buy" id="mc-embedded-buy"/></div>
 
 <header class="nav-down access">
-	<h2>
-		<ul
-			><b>
-				<li><a class="access" href="/">about</a></li>
-				<li><a class="access" href="/articles">articles</a></li>
-				<li><a class="access" href="/support">support</a></li>
-				<li><a class="access" href="/contact">contact</a></li>
-			</b></ul
-		>
-	</h2>
+	<li><a class="access" href="/">about</a></li>
+	<li><a class="access" href="/articles">articles</a></li>
+	<li><a class="access" href="/support">support</a></li>
+	<li><a class="access" href="/contact">contact</a></li>
 </header>
 
 <h1 id="site-name">
@@ -27,18 +21,48 @@
 </h1>
 
 <script>
-	// checkbox
-	$(document).ready(function() {
-		$("#textCheckbox").on("click", function() {
-			if ($(this).is(":checked")) {
-				$(".access").addClass("accessibility")
-				$(".access-no-red").addClass("accessibility-no-red")
-				$(".background").removeClass("red")
-			} else {
-				$(".access").removeClass("accessibility")
-				$(".access-no-red").removeClass("accessibility-no-red")
-				$(".background").addClass("red")
-			}
-		})
+	function createCookie(name, value, days) {
+		if (days) {
+			var date = new Date()
+			date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000)
+			var expires = "; expires=" + date.toGMTString()
+		} else var expires = ""
+		document.cookie = name + "=" + value + expires + "; path=/"
+	}
+
+	function readCookie(name) {
+		var nameEQ = name + "="
+		var ca = document.cookie.split(";")
+		for (var i = 0; i < ca.length; i++) {
+			var c = ca[i]
+			while (c.charAt(0) == " ") c = c.substring(1, c.length)
+			if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length)
+		}
+		return null
+	}
+
+	function eraseCookie(name) {
+		createCookie(name, "", -1)
+	}
+
+	$("input:checkbox").change(function() {
+		if ($(this).is(":checked")) {
+			$(".access").addClass("accessibility")
+			$(".access-no-red").addClass("accessibility-no-red")
+			$(".background").removeClass("red")
+			createCookie("pre", "prelight", 1000)
+		} else {
+			$(".access").removeClass("accessibility")
+			$(".access-no-red").removeClass("accessibility-no-red")
+			$(".background").addClass("red")
+			eraseCookie("pre", "prelight")
+		}
 	})
+
+	if (readCookie("pre")) {
+		$(".access").addClass("accessibility")
+		$(".access-no-red").addClass("accessibility-no-red")
+		$(".background").removeClass("red")
+		$("input:checkbox").attr("checked", "checked")
+	}
 </script>
