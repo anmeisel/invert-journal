@@ -1,8 +1,7 @@
-<label id="drop-down" class="access"
-	>friendly look
-	<input type="checkbox" id="textCheckbox" />
-	<span class="checkmark"></span>
-</label>
+<select id="drop-down" class="access">
+	<option value="journal" selected>Journal</option>
+	<option value="friendly">Friendly</option>
+</select>
 
 <div class="support-button-buy"
 	><div class="buy-button"><a target="_blank" href="https://invertjournal.bigcartel.com/product/invert-journal-issue-one">Buy</a></div></div
@@ -47,8 +46,11 @@
 		createCookie(name, "", -1)
 	}
 
-	$("input:checkbox").change(function() {
-		if ($(this).is(":checked")) {
+	$("#drop-down").change(function() {
+		const selected = $(this).val()
+		console.log(`selected is ${selected}`)
+
+		if (selected === "friendly") {
 			$(".access").addClass("accessibility")
 			$(".access-no-red").addClass("accessibility-no-red")
 			$(".background").removeClass("red")
@@ -65,6 +67,8 @@
 		$(".access").addClass("accessibility")
 		$(".access-no-red").addClass("accessibility-no-red")
 		$(".background").removeClass("red")
-		$("input:checkbox").attr("checked", "checked")
+		$("#drop-down")
+			.val("friendly")
+			.selected()
 	}
 </script>

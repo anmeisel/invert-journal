@@ -104,16 +104,27 @@ sub {
 
 /* friendly toggle */
 
-label {
+select {
 	margin: 0px;
 }
 
-label#drop-down {
+select#drop-down {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+
+	padding: 5px;
+	border: 2px solid black;
+	border-radius: 4px;
+	background: transparent;
+
 	position: fixed;
 	width: 80px;
 	left: 40px;
-	top: 40px;
+	top: 35px;
 	text-align: left;
+	display: inline-block;
+	font: inherit;
 	color: var(--type3-color);
 	z-index: 2;
 	font-size: var(--little-font-size);
