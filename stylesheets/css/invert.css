@@ -3,6 +3,11 @@
 	src: url(../../fonts/syne/Syne-Extra.otf);
 }
 
+@font-face {
+	font-family: nhg;
+	src: url(../../fonts/nhg55r.otf);
+}
+
 :root {
 	--type1: syne;
 	--type1-hover-color: #ecb7b8; /*pink*/
@@ -12,7 +17,7 @@
 	--type2-size: 1.15rem;
 	--type3-hover-color: #de2b1f; /*red*/
 	--type3-color: initial; /*black*/
-	--type3-family: arial;
+	--type3-family: nhg;
 	--little-font-size: 1rem;
 	--mid-font-size: 1.1875rem;
 
