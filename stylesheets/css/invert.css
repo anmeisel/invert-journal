@@ -351,6 +351,10 @@ small {
 	margin: 20px;
 }
 
+.arena-block-metadata {
+	padding-right: 20px;
+}
+
 .article-post {
 	width: 60vw;
 	margin: 20px;
@@ -378,7 +382,7 @@ small {
 }
 
 .article-post .description {
-	width: 100%;
+	width: calc(100% - 25px);
 }
 
 .description p {
@@ -591,67 +595,6 @@ footer {
 
 /* media */
 
-@media (max-width: 1178px) {
-	header li {
-		font-size: 1.5rem;
-	}
-
-	.main {
-		margin-right: 10vw;
-		margin-left: 10vw;
-	}
-
-	.main2 {
-		margin-right: 10vw;
-		margin-left: 10vw;
-	}
-
-	.main3 {
-		margin-right: 10vw;
-		margin-left: 10vw;
-	}
-
-	.arena-block {
-		width: 100%;
-		margin-right: 0px;
-		margin-left: 0px;
-	}
-
-	.article-post {
-		width: 100%;
-		margin-right: 0px;
-		margin-left: 0px;
-	}
-
-	.description {
-		width: calc(100% - 25px);
-	}
-
-	.arena-content blockquote {
-		margin-inline-start: 30px;
-		margin-inline-end: 0px;
-	}
-
-	.about-right {
-		margin-bottom: 60px;
-	}
-
-	.about-right,
-	.about-left {
-		width: initial;
-	}
-
-	.about-left {
-		margin-right: 20px;
-	}
-
-	.about-left-image img {
-		width: 50vw;
-		margin-right: 20px;
-		display: block;
-	}
-}
-
 @media (max-width: 1000px) {
 	header {
 		display: block;
@@ -660,16 +603,8 @@ footer {
 	}
 
 	header li {
+		font-size: 1.5rem;
 		display: block;
-	}
-
-	.nav-up {
-		top: -100px;
-	}
-
-	.about-left {
-		font-size: 1em;
-		margin-bottom: 0px;
 	}
 
 	.nav-up {
@@ -687,16 +622,61 @@ footer {
 	.main,
 	.main2,
 	.main3 {
+		margin-right: 10vw;
+		margin-left: 10vw;
 		margin-top: 150px;
 		margin-bottom: 0px;
 	}
 
+	.about-right,
+	.about-left {
+		width: initial;
+	}
+
+	.about-right {
+		margin-bottom: 60px;
+	}
+
+	.about-left {
+		margin-right: 20px;
+		margin-bottom: 0px;
+		font-size: 1em;
+	}
+
+	.about-left-image img {
+		width: 50vw;
+		margin-right: 20px;
+		display: block;
+	}
+
 	.arena-block {
+		width: 100%;
+		margin-right: 0px;
+		margin-left: 0px;
 		margin-bottom: 40px;
+	}
+
+	.article-post {
+		width: 100%;
+		margin-right: 0px;
+		margin-left: 0px;
+	}
+
+	.description {
+		width: calc(100% - 25px);
+	}
+
+	.arena-content blockquote {
+		margin-inline-start: 30px;
+		margin-inline-end: 0px;
 	}
 
 	.media-arrow {
 		transform: rotate(90deg);
+	}
+
+	.arena-block-metadata {
+		padding-right: 0px;
 	}
 
 	input[type="text"],
