@@ -374,7 +374,7 @@ small {
 	display: inline-block;
 	vertical-align: top;
 	top: 0px;
-	width: calc(25vw - 25px);
+	width: calc(25vw - 50px);
 	font-style: italic;
 	color: var(--type3-hover-color);
 	font-weight: bold;
@@ -412,6 +412,14 @@ blockquote::after {
 blockquote p {
 	margin-top: 0px;
 	margin-bottom: 0px;
+}
+
+code {
+	vertical-align: baseline;
+	position: relative;
+	margin-left: 3px;
+	top: -0.4em;
+	font-size: 14px;
 }
 
 .more {
