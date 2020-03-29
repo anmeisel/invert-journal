@@ -54,7 +54,7 @@ app.get('/', async function(req, res) {
 
       const about = contents.pop() // pop last block (in this case, "about"), out of array, and then pass it to the render below
 
-      if (view === 'about') {
+      if (view === 'channel') {
         // append `?view=channel` to the end of your URL to see "channel" as JSON
         res.send(contents)
       } else if (view === 'about') {
