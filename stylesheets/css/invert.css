@@ -386,6 +386,10 @@ small {
 	z-index: 2;
 }
 
+.arena-content blockquote {
+	margin-left: 20px;
+}
+
 blockquote {
 	quotes: "“" "”" "" "";
 	margin: 0px;
