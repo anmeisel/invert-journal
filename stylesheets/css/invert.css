@@ -109,7 +109,7 @@ sub {
 	right: 40px;
 	top: 40px;
 	color: var(--type3-color);
-	z-index: 2;
+	z-index: 9;
 	font-size: var(--little-font-size);
 }
 
@@ -123,21 +123,18 @@ select#drop-down {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
-
+	position: fixed;
+	width: initial;
+	margin: 0px;
+	top: 40px;
+	left: 40px;
 	padding: 5px;
 	border: 2px solid black;
 	border-radius: 4px;
 	background: transparent;
-
-	position: fixed;
-	width: 80px;
-	left: 40px;
-	top: 40px;
-	text-align: left;
-	display: inline-block;
 	font: inherit;
 	color: var(--type3-color);
-	z-index: 2;
+	z-index: 9;
 	font-size: var(--little-font-size);
 }
 
