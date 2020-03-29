@@ -319,7 +319,7 @@ small {
 .main3 {
 	margin-top: 125px;
 	font-size: var(--type2-size);
-	min-height: 64vh;
+	min-height: calc(100vh - 125px);
 }
 
 .main3 a {
@@ -421,7 +421,7 @@ blockquote p {
 	margin: 125px 150px 70px 150px;
 	margin-bottom: 0px;
 	font-size: var(--type2-size);
-	min-height: 61.5vh;
+	min-height: calc(100vh - 125px);
 }
 
 .main2 a {
