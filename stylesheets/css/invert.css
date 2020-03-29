@@ -377,6 +377,10 @@ small {
 	margin-bottom: 10px;
 }
 
+.article-post .description {
+	width: 100%;
+}
+
 .description p {
 	margin: 10px 0px 10px 0px;
 }
