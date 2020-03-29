@@ -134,8 +134,9 @@ select#drop-down {
 	background: transparent;
 	font: inherit;
 	color: var(--type3-color);
-	z-index: 9;
 	font-size: var(--little-font-size);
+	z-index: 9;
+	cursor: pointer;
 }
 
 #drop-down input {
@@ -177,24 +178,25 @@ body.accessibility {
 	text-decoration: none;
 }
 
+.accessibility p a {
+	text-decoration: underline;
+}
+
 .accessibility,
 .accessibility p,
-.accessibility p,
 .accessibility div,
-h2 .accessibility,
-h3 .accessibility {
+.accessibility div span {
 	color: var(--type3-color);
 	font-family: var(--type3-family);
 	text-decoration: none;
 }
 
-.accessibility p a {
-	text-decoration: underline;
-}
-
 .accessibility a:hover,
-.social.accessibility a:hover,
-.accessibility p a:hover {
+.accessibility div div div a:hover,
+.accessibility p a:hover,
+.accessibility-no-red div p a:hover,
+.accessibility-no-red div h2 a:hover,
+.accessibility-no-red a:hover {
 	color: var(--type3-hover-color);
 }
 
@@ -202,17 +204,8 @@ body.dark-no-red,
 body.dark {
 	background-color: var(--type1-hover-color-dark);
 	color: var(--type3-color-dark);
-	font-family: var(--type3-family-dark);
-	text-decoration: none;
-}
-
-.dark,
-.dark p,
-.dark p,
-.dark div,
-h2 .dark,
-h3 .dark {
-	color: var(--type3-color-dark);
+	border: 30px solid var(--type1-hover-color-dark);
+	border-bottom: 70px solid var(--type1-hover-color-dark);
 	font-family: var(--type3-family-dark);
 	text-decoration: none;
 }
@@ -221,9 +214,21 @@ h3 .dark {
 	text-decoration: underline;
 }
 
+.dark,
+.dark p,
+.dark div,
+.dark div span {
+	color: var(--type3-color-dark);
+	font-family: var(--type3-family-dark);
+	text-decoration: none;
+}
+
 .dark a:hover,
-.social.dark a:hover,
-.dark p a:hover {
+.dark div div div a:hover,
+.dark p a:hover,
+.dark-no-red div p a:hover,
+.dark-no-red div h2 a:hover,
+.dark-no-red a:hover {
 	color: var(--type3-hover-color-dark);
 }
 
@@ -499,7 +504,8 @@ input:-webkit-autofill:focus {
 	text-decoration: none;
 }
 
-.buy-button a:hover {
+.buy-button a:hover,
+.buy-button.accessibility a:hover {
 	color: black;
 }
 
