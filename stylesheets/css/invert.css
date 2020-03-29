@@ -11,10 +11,14 @@
 :root {
 	--type1: syne;
 	--type1-hover-color: #ecb7b8; /*pink*/
+
+	/* invert theme */
 	--type2-family: calluna, serif;
 	--type2-style: normal;
 	--type2-weight: 400;
 	--type2-size: 1.15rem;
+
+	/* friendly theme */
 	--type3-hover-color: #de2b1f; /*red*/
 	--type3-color: initial; /*black*/
 	--type3-family: nhg;
@@ -338,6 +342,10 @@ small {
 	width: 90%;
 }
 
+.media-arrow {
+	display: inline-block;
+}
+
 .arena-block {
 	width: 25vw;
 	margin: 20px;
@@ -350,10 +358,6 @@ small {
 
 .article-post h2 {
 	font-size: 2em;
-}
-
-.article-post .description {
-	width: calc(60vw - 30px);
 }
 
 .by {
@@ -370,6 +374,7 @@ small {
 	font-style: italic;
 	color: var(--type3-hover-color);
 	font-weight: bold;
+	margin-bottom: 10px;
 }
 
 .description p {
@@ -379,6 +384,22 @@ small {
 .arena-content {
 	line-height: 1.3em;
 	z-index: 2;
+}
+
+blockquote {
+	quotes: "“" "”" "" "";
+	margin: 0px;
+}
+blockquote::before {
+	content: open-quote;
+}
+blockquote::after {
+	content: close-quote;
+}
+
+blockquote p {
+	margin-top: 0px;
+	margin-bottom: 0px;
 }
 
 .more {
@@ -563,6 +584,10 @@ footer {
 /* media */
 
 @media (max-width: 1178px) {
+	header li {
+		font-size: 1.5rem;
+	}
+
 	.main {
 		margin-right: 10vw;
 		margin-left: 10vw;
@@ -572,149 +597,105 @@ footer {
 		margin-right: 10vw;
 		margin-left: 10vw;
 	}
-}
 
-@media (max-width: 1300px) {
-	.intro {
-		margin-bottom: 20px;
+	.main3 {
+		margin-right: 10vw;
+		margin-left: 10vw;
+	}
+
+	.arena-block {
+		width: 100%;
+		margin-right: 0px;
+		margin-left: 0px;
+	}
+
+	.article-post {
+		width: 100%;
+		margin-right: 0px;
+		margin-left: 0px;
+	}
+
+	.description {
+		width: calc(100% - 25px);
+	}
+
+	.arena-content blockquote {
+		margin-inline-start: 30px;
+		margin-inline-end: 0px;
+	}
+
+	.about-right {
+		margin-bottom: 60px;
+	}
+
+	.about-right,
+	.about-left {
+		width: initial;
+	}
+
+	.about-left {
+		margin-right: 20px;
+	}
+
+	.about-left-image img {
+		width: 50vw;
+		margin-right: 20px;
+		display: block;
 	}
 }
 
 @media (max-width: 1000px) {
-	.about-right-image img {
-		padding-top: 0px;
-		margin-top: 0px;
-	}
-}
-
-@media only screen and (max-width: 600px) {
-	body {
-		border-right: 3vw solid var(--type1-hover-color);
-		border-bottom: none;
-		font-size: 1em;
-	}
-
 	header {
-		width: 75vw;
-		margin-left: auto;
-		margin-right: auto;
-		float: none;
-		padding: 0;
-		border: 0;
-		margin: 0;
-		margin-top: 10px;
+		display: block;
 		text-align: center;
+		top: 30px;
 	}
 
-	.main {
-		margin-right: 5vw;
-		margin-left: 5vw;
-		margin-top: 0px;
-		font-size: 1em;
-	}
-
-	.main2 {
-		margin-right: 5vw;
-		margin-left: 5vw;
-		margin-top: 0px;
-		font-size: 1em;
-		padding-bottom: 30px;
-	}
-
-	.about-left {
-		font-size: 1em;
+	header li {
+		display: block;
 	}
 
 	.nav-up {
 		top: -100px;
 	}
 
-	#site-name {
-		position: fixed;
-		bottom: 0px;
-		right: 20px;
-		text-align: right;
-		font-size: 2.2875rem;
-		width: 250px;
-		transition: 0.2s;
-		font-family: var(--type1);
-		z-index: 3;
-	}
-
 	.about-left {
-		width: 70vw;
-		margin-left: auto;
-		margin-right: auto;
-		float: none;
-		margin-bottom: 60px;
-	}
-
-	.about-right-image img {
-		display: block;
-		width: 70vw;
-		margin-left: auto;
-		margin-right: auto;
-		float: none;
-		margin-top: 15px;
-	}
-
-	.about-right {
-		width: 70vw;
-		margin-left: auto;
-		margin-right: auto;
-		padding-bottom: 20px;
-	}
-
-	.mail-container {
-		width: 100%;
-	}
-
-	.mc-field-group {
-		width: 100%;
-	}
-}
-
-@media (max-width: 760px) {
-	header li {
-		padding-top: 0px;
-	}
-
-	.main,
-	.main2 {
-		margin-top: 160px;
-	}
-
-	.about-left {
-		margin-bottom: 30px;
-		width: 70vw;
-		font-size: 20px;
-		margin-left: auto;
-		margin-right: auto;
-		float: none;
-	}
-
-	header li {
-		display: block;
-	}
-
-	.about-right-image img {
-		display: block;
-		width: 280px;
-		margin-left: auto;
-		margin-right: auto;
-		float: none;
-	}
-
-	.about-right {
-		padding-bottom: 30px;
-	}
-
-	h3 {
-		text-align: center;
+		font-size: 1em;
+		margin-bottom: 0px;
 	}
 
 	.nav-up {
 		top: -185px;
+	}
+
+	#site-name {
+		z-index: 3;
+	}
+
+	.articles {
+		display: block;
+	}
+
+	.main,
+	.main2,
+	.main3 {
+		margin-top: 150px;
+		margin-bottom: 0px;
+	}
+
+	.arena-block {
+		margin-bottom: 40px;
+	}
+
+	.media-arrow {
+		transform: rotate(90deg);
+	}
+
+	input[type="text"],
+	input[type="email"],
+	select,
+	textarea {
+		width: 100%;
 	}
 }
 
