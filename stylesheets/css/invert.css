@@ -604,6 +604,7 @@ footer {
 	bottom: 15px;
 	transition: 0.2s;
 	font-family: var(--type1);
+	z-index: 9;
 }
 
 #site-name2 {
@@ -616,6 +617,10 @@ footer {
 	right: 20px;
 	text-align: right;
 	opacity: 0;
+}
+
+h1#site-name {
+	margin-bottom: 15px;
 }
 
 /* media */
@@ -637,7 +642,7 @@ footer {
 	}
 
 	#site-name {
-		z-index: 3;
+		z-index: 9;
 	}
 
 	.articles {
@@ -714,7 +719,7 @@ footer {
 	.bottomegg {
 		position: fixed;
 		bottom: 0px;
-		right: 200px;
+		left: 10px;
 	}
 }
 
@@ -735,7 +740,6 @@ footer {
 
 	.bottomegg {
 		margin-left: 10px;
-		left: 10px;
 		width: 300px;
 	}
 }
