@@ -34,6 +34,7 @@
 
 html {
 	background-color: var(--type1-hover-color);
+	height: 100%;
 }
 
 body {
@@ -45,9 +46,10 @@ body {
 	font-style: var(--type2-style);
 	font-weight: var(--type2-weight);
 	border: 30px solid var(--type1-hover-color);
-	border-bottom: 70px solid var(--type1-hover-color);
-	padding-bottom: 40px;
 	font-size: var(--type2-size);
+	min-height: calc(100% - 155px); /* minus footer and border height */
+	display: grid;
+	grid-template-rows: 1fr auto;
 }
 
 ul,
@@ -239,7 +241,7 @@ body.dark {
 /* index */
 
 .main {
-	margin: 125px 150px 70px 150px;
+	margin: 100px 150px 70px 150px;
 }
 
 .main a:hover {
@@ -290,16 +292,13 @@ small {
 	font-size: var(--little-font-size);
 }
 
-.topegg,
-.bottomegg {
+.topegg {
 	position: absolute;
-	overflow-x: hidden;
 }
 
 .topegg img,
 .bottomegg img {
 	width: 500px;
-	overflow-x: hidden;
 }
 
 .topegg {
@@ -309,17 +308,20 @@ small {
 }
 
 .bottomegg {
-	float: left;
-	left: 70px;
-	margin-top: -250px; /* minus img height */
+	position: relative;
+}
+
+.bottomegg img {
+	position: absolute;
+	left: 0;
+	bottom: 0;
 }
 
 /* articles */
 
 .main3 {
-	margin-top: 125px;
+	margin-top: 100px;
 	font-size: var(--type2-size);
-	min-height: calc(80vh - 125px);
 }
 
 .main3 a {
@@ -438,10 +440,10 @@ code {
 /* contact and support */
 
 .main2 {
-	margin: 125px 150px 70px 150px;
+	margin: 100px 150px 70px 150px;
 	margin-bottom: 0px;
 	font-size: var(--type2-size);
-	min-height: calc(80vh - 125px);
+	/*min-height: calc(80vh - 125px);*/
 }
 
 .main2 a {
@@ -451,6 +453,10 @@ code {
 
 .main2 a:hover {
 	color: var(--type1-hover-color);
+}
+
+.main2 p {
+	margin: 0px;
 }
 
 h2 {
@@ -574,17 +580,24 @@ footer {
 	text-transform: lowercase;
 	font-family: var(--type1);
 	position: absolute;
-	margin-bottom: 0px;
-	margin-top: 50px;
+	margin-bottom: 15px;
+	padding-top: 15px;
+}
+
+.footer-bottom {
+	border-bottom: 70px solid var(--type1-hover-color);
+	bottom: 0px;
+	grid-row-start: 2;
+	grid-row-end: 3;
 }
 
 #site-name {
 	position: fixed;
-	bottom: 55px;
 	right: 40px;
 	text-align: right;
 	font-size: 2.2875rem;
 	width: 250px;
+	bottom: 15px;
 	transition: 0.2s;
 	font-family: var(--type1);
 }
@@ -593,7 +606,7 @@ footer {
 	font-size: var(--mid-font-size);
 	font-family: var(--type1);
 	position: absolute;
-	margin-bottom: 0px;
+	bottom: 15px;
 	margin-top: 10px;
 	margin-right: 10px;
 	right: 20px;
@@ -693,6 +706,12 @@ footer {
 	textarea {
 		width: 100%;
 	}
+
+	.bottomegg {
+		position: fixed;
+		bottom: 0px;
+		right: 200px;
+	}
 }
 
 @media (max-width: 650px) {
@@ -711,9 +730,6 @@ footer {
 	}
 
 	.bottomegg {
-		position: absolute;
-		margin-bottom: 0px;
-		margin-top: -150px;
 		margin-left: 10px;
 		left: 10px;
 		width: 300px;
