@@ -188,6 +188,10 @@ body.accessibility {
 	text-decoration: underline;
 }
 
+.accessibility div div .buy-button a:hover {
+	color: var(--type3-color);
+}
+
 .accessibility,
 .accessibility p,
 .accessibility div,
