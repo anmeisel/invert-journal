@@ -343,11 +343,18 @@ small {
 	display: flex;
 	justify-content: center;
 	flex-direction: row;
-	margin-top: -20px;
+	margin-top: -40px;
+}
+
+.index {
+	width: 90vw;
+	text-align: center;
+	margin-bottom: 60px;
 }
 
 .articles h2 {
 	width: 90%;
+	margin: 20px 0px 10px 0px;
 }
 
 .blocks {
@@ -360,7 +367,11 @@ small {
 
 .arena-block {
 	width: 25vw;
+	height: 30vh;
 	margin: 20px;
+	display: inline-block;
+	text-align: left;
+	vertical-align: top;
 }
 
 .arena-block-metadata {
@@ -492,7 +503,7 @@ code {
 
 h2 {
 	display: inline-block;
-	margin: 20px 0px 10px 0px;
+	margin: 0px;
 	/*font-family: var(--type1);*/
 	font-size: 1.2rem;
 }
