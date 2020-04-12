@@ -352,6 +352,24 @@ small {
 	margin-bottom: 60px;
 }
 
+/*.index .arena-block .description {
+	line-height: 1.25em;
+	height: 3em;
+	overflow-y: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}*/
+
+.index .arena-block .description p,
+.index .arena-block .description blockquote,
+.index .arena-block .description ol {
+	display: none;
+}
+
+.index .arena-block .description h2 {
+	margin: 0px 0px 10px 0px;
+}
+
 .articles h2 {
 	width: 90%;
 	margin: 20px 0px 10px 0px;
@@ -411,6 +429,18 @@ img.image-block-image {
 
 .article-post .description {
 	width: calc(100% - 25px);
+	font-size: var(--type2-size);
+	color: initial;
+	font-style: initial;
+	font-weight: initial;
+}
+
+.article-post .description h2 {
+	width: calc(100% - 25px);
+	font-size: var(--type2-size);
+	color: var(--type3-hover-color);
+	font-style: italic;
+	margin: 0px 0px 10px 0px;
 }
 
 .description p {
@@ -435,6 +465,11 @@ img.image-block-image {
 }
 
 .arena-content blockquote {
+	margin-left: 20px;
+	font-style: italic;
+}
+
+.article-post .description blockquote {
 	margin-left: 20px;
 	font-style: italic;
 }

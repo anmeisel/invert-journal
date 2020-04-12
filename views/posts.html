@@ -17,6 +17,26 @@
                             <h2 class="access">{{ title }}</h2>
                         </div>
 
+                        {{# embed }}
+                        <div id="embed-block_{{ id }}" class="embed-block">{{{ html }}} </div>
+                        {{/ embed }} {{^ embed }} {{# source }} {{# url }}
+                        <a target="_blank" href="{{ url }}">{{ url }}</a>
+                        {{/ url }} {{# image }}
+                        <div class="url-block">
+                            <img id="url-block-image_{{ id }}" class="url-block-image" src="{{# display }}{{{ url }}}{{/ display }}" />
+                        </div>
+                        {{/ image }} {{/ source }} {{^ source }} {{# attachment }}
+                        <div id="video-block_{{ id }}" class="video-block">
+                            <video id="video-block-attachment_{{ id }}" class="video-block-attachment" loop controls playsinline autoplay muted preload="auto">
+                                <source src="{{{ static_url }}}{{ file_name }}" type="{{{ content_type }}}" />
+                            </video>
+                        </div>
+                        {{/ attachment }} {{# image }}
+                        <div class="image-block">
+                            <img id="image-block-image_{{ id }}" class="image-block-image" src="{{# display }}{{{ url }}}{{/ display }}" />
+                        </div>
+                        {{/ image }} {{/ source }} {{/ embed }}<br />
+
                         <div class="arena-block-metadata access">
                             {{# description_html }}
                             <span class="by">By</span>
@@ -34,26 +54,6 @@
                         {{/ metadata }}
 
                         <a href="?view=articles&post={{{ id }}}#{{{truncTitle}}}" class="datestamp access">Posted on {{{connected_at}}}</a>
-
-                        {{# embed }}
-                        <div id="embed-block_{{ id }}" class="embed-block"><br />{{{ html }}} </div>
-                        {{/ embed }} {{^ embed }} {{# source }} {{# url }}<br />
-                        <a target="_blank" href="{{ url }}">{{ url }}</a>
-                        {{/ url }} {{# image }}<br />
-                        <div class="url-block">
-                            <img id="url-block-image_{{ id }}" class="url-block-image" src="{{# display }}{{{ url }}}{{/ display }}" />
-                        </div>
-                        {{/ image }} {{/ source }} {{^ source }} {{# attachment }}<br />
-                        <div id="video-block_{{ id }}" class="video-block">
-                            <video id="video-block-attachment_{{ id }}" class="video-block-attachment" loop controls playsinline autoplay muted preload="auto">
-                                <source src="{{{ static_url }}}{{ file_name }}" type="{{{ content_type }}}" />
-                            </video>
-                        </div>
-                        {{/ attachment }} {{# image }}<br />
-                        <div class="image-block">
-                            <img id="image-block-image_{{ id }}" class="image-block-image" src="{{# display }}{{{ url }}}{{/ display }}" />
-                        </div>
-                        {{/ image }} {{/ source }} {{/ embed }}
                     </div>
                     {{/ arena }}
                 </div>
