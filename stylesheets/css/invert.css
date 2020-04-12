@@ -474,24 +474,6 @@ img.image-block-image {
 	font-style: italic;
 }
 
-/*blockquote {
-	quotes: "“" "”" "" "";
-	margin: 0px;
-}
-
-blockquote::before {
-	content: open-quote;
-}
-
-blockquote::after {
-	content: close-quote;
-}
-
-blockquote p {
-	margin-top: 0px;
-	margin-bottom: 0px;
-}*/
-
 code {
 	/* sup tag */
 	vertical-align: baseline;
@@ -720,10 +702,14 @@ h1#site-name {
 	}
 
 	.main,
-	.main2,
-	.main3 {
+	.main2 {
 		margin-right: 10vw;
 		margin-left: 10vw;
+		margin-top: 150px;
+		margin-bottom: 0px;
+	}
+
+	.main3 {
 		margin-top: 150px;
 		margin-bottom: 0px;
 	}
@@ -761,9 +747,9 @@ h1#site-name {
 	}
 
 	.article-post {
-		width: 100%;
-		margin-right: 0px;
-		margin-left: 0px;
+		width: 75vw;
+		margin-right: 5vw;
+		margin-left: 5vw;
 	}
 
 	.description {
