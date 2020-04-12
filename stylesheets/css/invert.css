@@ -693,6 +693,10 @@ h1#site-name {
 		margin-bottom: 0px;
 	}
 
+	.index {
+		width: 100%;
+	}
+
 	.about-right,
 	.about-left {
 		width: initial;
