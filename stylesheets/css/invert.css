@@ -132,7 +132,7 @@ select#drop-down {
 	position: fixed;
 	width: initial;
 	margin: 0px;
-	top: 40px;
+	top: 68px;
 	left: 40px;
 	padding: 5px;
 	border: 2px solid black;
@@ -147,6 +147,20 @@ select#drop-down {
 
 #drop-down input {
 	opacity: 0;
+}
+
+.drop-down-label {
+	position: fixed;
+	width: initial;
+	margin: 0px;
+	top: 40px;
+	left: 40px;
+	background: transparent;
+	font: inherit;
+	color: var(--type3-color);
+	font-size: var(--little-font-size);
+	z-index: 9;
+	cursor: pointer;
 }
 
 .checkmark {
@@ -246,6 +260,7 @@ body.dark {
 
 .main {
 	margin: 100px 150px 70px 150px;
+	z-index: 99999;
 }
 
 .main a:hover {
@@ -632,6 +647,10 @@ input:-webkit-autofill:focus {
 
 .support-button {
 	margin: 10px 0px 10px;
+}
+
+.mc-field-group {
+	margin-bottom: 15px;
 }
 
 footer {
