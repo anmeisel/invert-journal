@@ -431,6 +431,7 @@ img.image-block-image {
 .by {
 	display: inline-block;
 	vertical-align: top;
+	margin-bottom: 2px;
 }
 
 .description {
@@ -793,6 +794,10 @@ h1#site-name {
 		color: initial;
 		font-style: initial;
 		font-weight: initial;
+	}
+
+	.description {
+		width: calc(100% - 25px);
 	}
 
 	.arena-content blockquote {
