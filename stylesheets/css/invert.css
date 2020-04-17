@@ -651,6 +651,7 @@ input:-webkit-autofill:focus {
 
 .mc-field-group {
 	margin-bottom: 15px;
+	margin-top: 0px;
 }
 
 footer {
@@ -706,8 +707,18 @@ h1#site-name {
 	}
 
 	header li {
-		font-size: 1.5rem;
+		font-size: 1rem;
 		display: block;
+	}
+
+	.drop-down-label,
+	select#drop-down,
+	.buy-button {
+		font-size: 0.8rem;
+	}
+
+	select#drop-down {
+		top: 63px;
 	}
 
 	.nav-up {
@@ -727,7 +738,7 @@ h1#site-name {
 		margin-right: 10vw;
 		margin-left: 10vw;
 		margin-top: 150px;
-		margin-bottom: 0px;
+		margin-bottom: 30px;
 	}
 
 	.main3 {
@@ -776,8 +787,12 @@ h1#site-name {
 		margin-left: 5vw;
 	}
 
-	.description {
-		width: calc(100% - 25px);
+	.article-post .description {
+		width: 100%;
+		font-size: var(--type2-size);
+		color: initial;
+		font-style: initial;
+		font-weight: initial;
 	}
 
 	.arena-content blockquote {
@@ -791,6 +806,7 @@ h1#site-name {
 
 	.arena-block-metadata {
 		padding-right: 0px;
+		padding-left: 0px;
 		height: 100%;
 	}
 
