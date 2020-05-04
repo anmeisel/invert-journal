@@ -5,6 +5,7 @@ const mustacheExpress = require('mustache-express')
 const Arena = require('are.na')
 const yaml = require('js-yaml')
 const fs = require('fs')
+const marked = require('marked')
 require('dotenv-flow').config()
 
 const environment = process.env.environment
@@ -19,6 +20,17 @@ if (environment === 'now') {
   cache = yaml.safeLoad(fs.readFileSync('./api/config.yaml', 'utf8'))
 }
 const channelCache = require('./api/articles.json')
+
+// Setup Markdown -> HTML
+marked.setOptions({
+  renderer: new marked.Renderer(),
+  gfm: true,
+  breaks: true,
+  sanitize: false,
+  smartLists: true,
+  tables: true,
+  xhtml: true
+})
 
 const app = express()
 
@@ -51,6 +63,13 @@ app.get('/', async function(req, res) {
 
       const config = yaml.safeLoad(channel.metadata.description) // get our site description from our are.na channel description - since it is loaded in as yaml, we can access it's values with `config.key`, ex: for title, we can use `config.details.title`
       const contents = channel.contents // clean up the results a little bit, and make the channel's contents available as a constant, `contents`
+
+      // Replace Are.na's "content_html" and "description_html" values with html rendered from the markdown we get from "content" and "description" respectively using marked.js
+      contents.forEach(block => {
+        block.content_html = marked(block.content)
+        block.description_html = marked(block.description)
+        console.log(`${block.id} content_html = ${block.content_html}, and description_html = ${block.description_html}`)
+      })
 
       const about = contents.pop() // pop last block (in this case, "about"), out of array, and then pass it to the render below
 
@@ -99,6 +118,13 @@ app.get('/contact', async function(req, res) {
       const config = yaml.safeLoad(channel.metadata.description) // get our site description from our are.na channel description - since it is loaded in as yaml, we can access it's values with `config.key`, ex: for title, we can use `config.details.title`
       const contents = channel.contents // clean up the results a little bit, and make the channel's contents available as a constant, `contents`
 
+      // Replace Are.na's "content_html" and "description_html" values with html rendered from the markdown we get from "content" and "description" respectively using marked.js
+      contents.forEach(block => {
+        block.content_html = marked(block.content)
+        block.description_html = marked(block.description)
+        console.log(`${block.id} content_html = ${block.content_html}, and description_html = ${block.description_html}`)
+      })
+
       const about = contents.pop() // pop last block (in this case, "about"), out of array, and then pass it to the render below
 
       if (view === 'about') {
@@ -145,6 +171,13 @@ app.get('/articles', async function(req, res) {
 
       const config = yaml.safeLoad(channel.metadata.description) // get our site description from our are.na channel description - since it is loaded in as yaml, we can access it's values with `config.key`, ex: for title, we can use `config.details.title`
       const contents = channel.contents // clean up the results a little bit, and make the channel's contents available as a constant, `contents`
+
+      // Replace Are.na's "content_html" and "description_html" values with html rendered from the markdown we get from "content" and "description" respectively using marked.js
+      contents.forEach(block => {
+        block.content_html = marked(block.content)
+        block.description_html = marked(block.description)
+        console.log(`${block.id} content_html = ${block.content_html}, and description_html = ${block.description_html}`)
+      })
 
       contents.forEach(contentItem => {
         var trunc = contentItem.title
@@ -215,6 +248,13 @@ app.get('/posts', async function(req, res) {
       const config = yaml.safeLoad(channel.metadata.description) // get our site description from our are.na channel description - since it is loaded in as yaml, we can access it's values with `config.key`, ex: for title, we can use `config.details.title`
       const contents = channel.contents // clean up the results a little bit, and make the channel's contents available as a constant, `contents`
 
+      // Replace Are.na's "content_html" and "description_html" values with html rendered from the markdown we get from "content" and "description" respectively using marked.js
+      contents.forEach(block => {
+        block.content_html = marked(block.content)
+        block.description_html = marked(block.description)
+        console.log(`${block.id} content_html = ${block.content_html}, and description_html = ${block.description_html}`)
+      })
+
       contents.forEach(contentItem => {
         var trunc = contentItem.title
         trunc = trunc
@@ -283,6 +323,13 @@ app.get('/support', async function(req, res) {
 
       const config = yaml.safeLoad(channel.metadata.description) // get our site description from our are.na channel description - since it is loaded in as yaml, we can access it's values with `config.key`, ex: for title, we can use `config.details.title`
       const contents = channel.contents // clean up the results a little bit, and make the channel's contents available as a constant, `contents`
+
+      // Replace Are.na's "content_html" and "description_html" values with html rendered from the markdown we get from "content" and "description" respectively using marked.js
+      contents.forEach(block => {
+        block.content_html = marked(block.content)
+        block.description_html = marked(block.description)
+        console.log(`${block.id} content_html = ${block.content_html}, and description_html = ${block.description_html}`)
+      })
 
       const about = contents.pop() // pop last block (in this case, "about"), out of array, and then pass it to the render below
 
