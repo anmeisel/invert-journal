@@ -724,7 +724,8 @@ h1#site-name {
 
 	.drop-down-label,
 	select#drop-down,
-	.buy-button {
+	.buy-button,
+	.support-button-buy {
 		font-size: 0.8rem;
 	}
 
@@ -744,16 +745,20 @@ h1#site-name {
 		display: block;
 	}
 
+	.article-post h2 {
+		margin-top: 100px;
+	}
+
 	.main,
 	.main2 {
 		margin-right: 10vw;
 		margin-left: 10vw;
-		margin-top: 150px;
+		margin-top: 80px;
 		margin-bottom: 30px;
 	}
 
 	.main3 {
-		margin-top: 150px;
+		margin-top: 80px;
 		margin-bottom: 0px;
 	}
 
