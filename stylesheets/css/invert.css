@@ -362,7 +362,7 @@ small {
 }
 
 .index {
-	width: 90vw;
+	width: 80vw;
 	text-align: center;
 	margin-bottom: 60px;
 }
@@ -685,6 +685,7 @@ footer {
 	bottom: 25px;
 	transition: 0.2s;
 	font-family: var(--type1);
+	z-index: 9;
 }
 
 #site-name2 {
