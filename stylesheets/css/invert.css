@@ -390,6 +390,10 @@ small {
 	margin: 20px 0px 10px 0px;
 }
 
+.main3 h2 a {
+	text-decoration: none;
+}
+
 .blocks {
 	display: block;
 }
