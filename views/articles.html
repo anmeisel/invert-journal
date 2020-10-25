@@ -80,7 +80,7 @@
                 .parent()
                 .parent()
                 .toggleClass("peek")
-                $(this).toggleClass("reverse")
+                $(this).toggleClass("red")
                 const id = this.id.slice(5)
                 const trunc = $(this).parent().attr("id");
                 window.history.pushState("object or string", "Title", `?view=articles&post=${id}#${trunc}`);

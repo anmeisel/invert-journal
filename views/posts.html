@@ -14,7 +14,7 @@
                     {{# arena }}
                     <div class="article-post" id="section_{{ id }}">
                         <div class="arena-block-title" id="{{ truncTitle }}">
-                            <h2 class="access"><a href="?view=articles&post={{{ id }}}#{{{truncTitle}}}">{{ title }}</a></h2>
+                            <h2 class="access more" id="more-{{ id }}"><a href="?view=articles&post={{{ id }}}#{{{truncTitle}}}">{{ title }}</a></h2>
                         </div>
 
                         {{# embed }}
@@ -32,9 +32,11 @@
                             </video>
                         </div>
                         {{/ attachment }} {{# image }}
+
                         <div class="image-block">
                             <img id="image-block-image_{{ id }}" class="image-block-image" src="{{# display }}{{{ url }}}{{/ display }}" />
                         </div>
+
                         {{/ image }} {{/ source }} {{/ embed }}<br />
 
                         <div class="arena-block-metadata access">
@@ -53,7 +55,7 @@
                         </span>
                         {{/ metadata }}
 
-                        <a href="?view=articles&post={{{ id }}}#{{{truncTitle}}}" class="datestamp access">Posted on <span id="date">{{ date }}</span></a>
+                        <!-- <a href="?view=articles&post={{{ id }}}#{{{truncTitle}}}" class="datestamp access">Posted on <span id="date">{{ date }}</span></a> -->
                     </div>
                     {{/ arena }}
                 </div>
@@ -63,3 +65,27 @@
         {{> components/body-end }}
     </body>
 </html>
+
+<script>
+    {{#articles}}
+        $(window).on("load", function() {
+            $("#more-{{articles.post}}")
+                .toggleClass("reverse")
+                .parent()
+                .parent()
+                .toggleClass("peek")
+            })
+    {{/articles}}
+    $(document).ready(function() {
+        $(".more").click(function() {
+            $(this)
+                .parent()
+                .parent()
+                .toggleClass("peek")
+                $(this).toggleClass("red")
+                const id = this.id.slice(5)
+                const trunc = $(this).parent().attr("id");
+                window.history.pushState("object or string", "Title", `?view=articles&post=${id}#${trunc}`);
+        })
+    })
+</script>
