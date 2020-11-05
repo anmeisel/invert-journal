@@ -194,6 +194,8 @@ app.get('/articles', async function(req, res) {
 
       const about = contents.pop() // pop last block (in this case, "about"), out of array, and then pass it to the render below
 
+      const articles = contents.splice(0, contents.length - 8);
+
       if (view === 'channel') {
         // @@ -107,6 +121,16 @@ app.get('/articles', async function(req, res) {
         res.send(contents)
@@ -202,7 +204,7 @@ app.get('/articles', async function(req, res) {
         res.send(about)
       } else if (view) {
         // get our URL contents and pass them to the view
-        const articles = req.query
+        // const articles = req.query
         res.render('articles.html', {
           static_url: cdn,
           config,
@@ -363,6 +365,84 @@ app.get('/support', async function(req, res) {
 
       console.log(err)
       res.render('support.html', {
+        title: 'Error 😭',
+        static_url: cdn,
+        config: cache
+      })
+    })
+})
+
+app.get('/pandemic-journal', async function(req, res) {
+  const view = req.query.view
+  const arena = new Arena({ accessToken: process.env.arenaPAT })
+  arena
+    .channel(process.env.arenaChannel)
+    .get({
+      page: 1, // get the first page of results
+      per: 64, // get 64 items per call (max: 100) - play around w this for performance
+      direction: 'desc' // ask API v nicely to sort blocks by most recent
+    })
+    .then(channel => {
+      // fetch our whole are.na channel as `channel`
+
+      const config = yaml.safeLoad(channel.metadata.description) // get our site description from our are.na channel description - since it is loaded in as yaml, we can access it's values with `config.key`, ex: for title, we can use `config.details.title`
+      const contents = channel.contents // clean up the results a little bit, and make the channel's contents available as a constant, `contents`
+
+      // Replace Are.na's "content_html" and "description_html" values with html rendered from the markdown we get from "content" and "description" respectively using marked.js
+      contents.forEach(block => {
+        block.content_html = marked(block.content)
+        block.description_html = marked(block.description)
+        console.log(`${block.id} content_html = ${block.content_html}, and description_html = ${block.description_html}`)
+      })
+
+      contents.forEach(contentItem => {
+        let trunc = contentItem.title
+        trunc = trunc
+          .replace(/\s+/g, '-')
+          .replace('€', 'e')
+          .replace('£', 'e')
+          .replace('$', 's')
+          .toLowerCase()
+        contentItem.truncTitle = trunc
+        // console.log(contentItem.truncTitle)
+      })
+
+      const about = contents.pop() // pop last block (in this case, "about"), out of array, and then pass it to the render below
+      const pandemic = contents.splice(contents.length - 8, 8);
+
+      if (view === 'channel') {
+        // @@ -107,6 +121,16 @@ app.get('/pandemic-journal', async function(req, res) {
+        res.send(contents)
+      } else if (view === 'about') {
+        // append `?view=about` to the end of your URL to see "about" as JSON
+        res.send(about)
+      } else if (view) {
+        // get our URL contents and pass them to the view
+        
+        
+        res.render('pandemic-journal.html', {
+          static_url: cdn,
+          config,
+          pandemic,
+          about,
+          arena: contents // pass our are.na channel contents into the render for use w mustache.js by using `{{arena}}` - see views/arena.html
+        })
+      } else {
+        res.render('pandemic-journal.html', {
+          static_url: cdn,
+          config,
+          about,
+          arena: contents // pass our are.na channel contents into the render for use w mustache.js by using `{{arena}}` - see views/arena.html
+        })
+      }
+    })
+    .catch(err => {
+      // handle errors
+
+      cache.details.title = 'Error 😭' // change the value of cache.details.title (loaded from ./api/config.yaml) to reflect an error
+
+      console.log(err)
+      res.render('pandemic-journal.html', {
         title: 'Error 😭',
         static_url: cdn,
         config: cache

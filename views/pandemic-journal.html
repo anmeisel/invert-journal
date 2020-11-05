@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+{{> components/ascii }}
+<html lang="en">
+    <head>
+        {{> components/head }}
+    </head>
+
+    <body class="access">
+        <div class="topegg"><img src="././assets/images/egg2.png"/></div>
+        {{> components/nav }}
+        <div class="main3 access">
+            <div class="intro articles">
+                <div class="index">
+                    {{# arena }}
+                    <div class="arena-block" id="section_{{ id }}">
+                        <div class="arena-block-title" id="{{ truncTitle }}">
+                            <h2 class="access"><a href="posts?view=articles&post={{{ id }}}#{{{truncTitle}}}">{{ title }}</a></h2>
+                        </div>
+                        <div class="arena-block-metadata access">
+                            {{# description_html }}
+                            <span class="by">By</span>
+                            <span class="description">{{{ description_html }}}</span>
+                            {{/ description_html }} {{# embed }}
+                            <div id="embed-block_{{ id }}" class="embed-block">{{{ html }}} </div>
+                            {{/ embed }} {{^ embed }} {{# source }} {{# url }}
+                            <a target="_blank" href="{{ url }}">{{ url }}</a>
+                            {{/ url }} {{# image }}
+                            <div class="url-block">
+                                <img id="url-block-image_{{ id }}" class="url-block-image" src="{{# display }}{{{ url }}}{{/ display }}" />
+                            </div>
+                            {{/ image }} {{/ source }} {{^ source }} {{# attachment }}
+                            <div id="video-block_{{ id }}" class="video-block">
+                                <video
+                                    id="video-block-attachment_{{ id }}"
+                                    class="video-block-attachment"
+                                    loop
+                                    controls
+                                    playsinline
+                                    autoplay
+                                    muted
+                                    preload="auto"
+                                >
+                                    <source src="{{{ static_url }}}{{ file_name }}" type="{{{ content_type }}}" />
+                                </video>
+                            </div>
+                            {{/ attachment }} {{# image }}
+                            <div class="image-block">
+                                <img id="image-block-image_{{ id }}" class="image-block-image" src="{{# display }}{{{ url }}}{{/ display }}" />
+                            </div>
+                            {{/ image }} {{/ source }} {{/ embed }}
+                        </div>
+                        <!-- <div class="more" id="more-{{ id }}"
+                        ><u>
+                            <a href="posts?view=articles&post={{{ id }}}#{{{truncTitle}}}"> Read</a></u
+                        >
+                    </div> -->
+                    </div>
+                    {{/ arena }}
+                </div>
+            </div>
+        </div>
+        <div class="bottomegg"><img src="./assets/images/egg1.png"/></div>
+        {{> components/body-end }}
+    </body>
+</html>
+
+<script>
+    {{#articles}}
+        $(window).on("load", function() {
+            $("#more-{{articles.post}}")
+                .toggleClass("reverse")
+                .parent()
+                .parent()
+                .toggleClass("peek")
+            })
+    {{/articles}}
+    $(document).ready(function() {
+        $(".more").click(function() {
+            $(this)
+                .parent()
+                .parent()
+                .toggleClass("peek")
+                $(this).toggleClass("red")
+                const id = this.id.slice(5)
+                const trunc = $(this).parent().attr("id");
+                window.history.pushState("object or string", "Title", `?view=articles&post=${id}#${trunc}`);
+        })
+    })
+</script>
