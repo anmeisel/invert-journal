@@ -372,7 +372,7 @@ app.get('/support', async function(req, res) {
     })
 })
 
-app.get('/pandemic-journal', async function(req, res) {
+app.get('/pandemic-inquiries', async function(req, res) {
   const view = req.query.view
   const arena = new Arena({ accessToken: process.env.arenaPAT })
   arena
@@ -420,7 +420,7 @@ app.get('/pandemic-journal', async function(req, res) {
         // get our URL contents and pass them to the view
         
         
-        res.render('pandemic-journal.html', {
+        res.render('pandemic-inquiries.html', {
           static_url: cdn,
           config,
           pandemic,
@@ -428,7 +428,7 @@ app.get('/pandemic-journal', async function(req, res) {
           arena: contents // pass our are.na channel contents into the render for use w mustache.js by using `{{arena}}` - see views/arena.html
         })
       } else {
-        res.render('pandemic-journal.html', {
+        res.render('pandemic-inquiries.html', {
           static_url: cdn,
           config,
           about,
@@ -442,7 +442,7 @@ app.get('/pandemic-journal', async function(req, res) {
       cache.details.title = 'Error 😭' // change the value of cache.details.title (loaded from ./api/config.yaml) to reflect an error
 
       console.log(err)
-      res.render('pandemic-journal.html', {
+      res.render('pandemic-inquiries.html', {
         title: 'Error 😭',
         static_url: cdn,
         config: cache
