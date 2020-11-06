@@ -3,6 +3,11 @@
 <html lang="en">
     <head>
         {{> components/head }}
+        <style>
+        .image-block {
+            border: 2px solid var(--type1-hover-color);
+        }
+        </style>
     </head>
 
     <body class="access">
@@ -71,7 +76,7 @@
                 .toggleClass("reverse")
                 .parent()
                 .parent()
-                .toggleClass("peek")
+                .toggleClass("peek", 1000)
             })
     {{/articles}}
     $(document).ready(function() {
@@ -79,7 +84,7 @@
             $(this)
                 .parent()
                 .parent()
-                .toggleClass("peek")
+                .toggleClass("peek", 1000)
                 $(this).toggleClass("red")
                 const id = this.id.slice(5)
                 const trunc = $(this).parent().attr("id");

@@ -88,4 +88,16 @@
                 window.history.pushState("object or string", "Title", `?view=articles&post=${id}#${trunc}`);
         })
     })
+
+    $(document).ready(function() {
+        $(".image-block").click(function() {
+            $(this)
+                .parent()
+                .toggleClass("peek")
+                $(this).toggleClass("red")
+                const id = this.id.slice(5)
+                const trunc = $(this).parent().attr("id");
+                window.history.pushState("object or string", "Title", `?view=articles&post=${id}#${trunc}`);
+        })
+    })
 </script>
