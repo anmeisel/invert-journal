@@ -222,6 +222,7 @@ body.accessibility {
 	color: var(--type3-color);
 	font-family: var(--type3-family);
 	text-decoration: none;
+	text-transform: capitalize;
 }
 
 .accessibility .image-block {
