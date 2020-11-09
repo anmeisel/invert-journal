@@ -222,6 +222,9 @@ body.accessibility {
 	color: var(--type3-color);
 	font-family: var(--type3-family);
 	text-decoration: none;
+}
+
+header.accessibility {
 	text-transform: capitalize;
 }
 
@@ -843,7 +846,7 @@ h1#site-name {
 		margin-right: 10vw;
 		margin-left: 10vw;
 		margin-top: 80px;
-		margin-bottom: 30px;
+		margin-bottom: 70px;
 	}
 
 	.main3 {
@@ -886,6 +889,14 @@ h1#site-name {
 		margin-right: 0px;
 		margin-left: 0px;
 		margin-bottom: 40px;
+	}
+
+	h2.access a {
+		border-bottom: 2px solid var(--type1-hover-color);
+	}
+
+	.article-post h2.access a {
+		border-bottom: none;
 	}
 
 	.article-post {
@@ -951,6 +962,7 @@ h1#site-name {
 		position: fixed;
 		bottom: 0px;
 		left: 10px;
+		z-index: -1;
 	}
 }
 
