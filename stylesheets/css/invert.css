@@ -339,7 +339,7 @@ small {
 .topegg img,
 .bottomegg img {
 	width: 500px;
-	z-index: 0;
+	z-index: -1;
 }
 
 .topegg {
@@ -723,13 +723,13 @@ footer {
 	position: absolute;
 	/*margin-bottom: 20px;*/
 	/*padding-top: 15px;*/
-	z-index: 2;
+	z-index: 10;
 	margin-top: -60px;
 	height: 60px;
 }
 
 footer a {
-	z-index: 3;
+	z-index: 11;
 	bottom: 0;
 }
 
@@ -747,11 +747,12 @@ footer a {
 	right: 20px;
 	text-align: right;
 	font-size: 2.2875rem;
-	width: 250px;
+	width: 200px;
 	bottom: 25px;
 	transition: 0.2s;
 	font-family: var(--type1);
 	z-index: 9;
+	margin-bottom: 18px;
 }
 
 #site-name2 {
@@ -766,9 +767,6 @@ footer a {
 	opacity: 0;
 }
 
-h1#site-name {
-	margin-bottom: 18px;
-}
 
 .article-post {
 	overflow: hidden;
@@ -817,7 +815,8 @@ h1#site-name {
 	.drop-down-label,
 	select#drop-down,
 	.buy-button,
-	.support-button-buy {
+	.support-button-buy,
+	input[type="submit"] {
 		font-size: 0.8rem;
 	}
 
@@ -962,7 +961,7 @@ h1#site-name {
 		position: fixed;
 		bottom: 0px;
 		left: 10px;
-		z-index: -1;
+		z-index: -2;
 	}
 }
 
