@@ -69,7 +69,7 @@ app.get('/', async function(req, res) {
       contents.forEach(block => {
         block.content_html = marked(block.content)
         block.description_html = marked(block.description)
-        // console.log(`${block.id} content_html = ${block.content_html}, and description_html = ${block.description_html}`)
+        console.log(`${block.id} content_html = ${block.content_html}, and description_html = ${block.description_html}`)
       })
 
       const about = contents.pop() // pop last block (in this case, "about"), out of array, and then pass it to the render below
@@ -123,7 +123,7 @@ app.get('/contact', async function(req, res) {
       contents.forEach(block => {
         block.content_html = marked(block.content)
         block.description_html = marked(block.description)
-        // console.log(`${block.id} content_html = ${block.content_html}, and description_html = ${block.description_html}`)
+        console.log(`${block.id} content_html = ${block.content_html}, and description_html = ${block.description_html}`)
       })
 
       const about = contents.pop() // pop last block (in this case, "about"), out of array, and then pass it to the render below
@@ -177,7 +177,7 @@ app.get('/articles', async function(req, res) {
       contents.forEach(block => {
         block.content_html = marked(block.content)
         block.description_html = marked(block.description)
-        // console.log(`${block.id} content_html = ${block.content_html}, and description_html = ${block.description_html}`)
+        console.log(`${block.id} content_html = ${block.content_html}, and description_html = ${block.description_html}`)
       })
 
       contents.forEach(contentItem => {
@@ -262,7 +262,7 @@ app.get('/posts', async function(req, res) {
       contents.forEach(block => {
         block.content_html = marked(block.content)
         block.description_html = marked(block.description)
-        // console.log(`${block.id} content_html = ${block.content_html}, and description_html = ${block.description_html}`)
+        console.log(`${block.id} content_html = ${block.content_html}, and description_html = ${block.description_html}`)
       })
 
       contents.forEach(contentItem => {
@@ -338,7 +338,7 @@ app.get('/support', async function(req, res) {
       contents.forEach(block => {
         block.content_html = marked(block.content)
         block.description_html = marked(block.description)
-        // console.log(`${block.id} content_html = ${block.content_html}, and description_html = ${block.description_html}`)
+        console.log(`${block.id} content_html = ${block.content_html}, and description_html = ${block.description_html}`)
       })
 
       const about = contents.pop() // pop last block (in this case, "about"), out of array, and then pass it to the render below
@@ -392,7 +392,7 @@ app.get('/pandemic-inquiries', async function(req, res) {
       contents.forEach(block => {
         block.content_html = marked(block.content)
         block.description_html = marked(block.description)
-        // console.log(`${block.id} content_html = ${block.content_html}, and description_html = ${block.description_html}`)
+        console.log(`${block.id} content_html = ${block.content_html}, and description_html = ${block.description_html}`)
       })
 
       contents.forEach(contentItem => {
