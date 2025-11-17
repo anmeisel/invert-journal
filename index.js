@@ -1,478 +1,335 @@
-/* eslint-disable no-console */
-const express = require('express')
-const compression = require('compression')
-const mustacheExpress = require('mustache-express')
-const Arena = require('are.na')
-const yaml = require('js-yaml')
-const fs = require('fs')
-const tinydate = require('tinydate')
-const marked = require('marked')
-require('dotenv-flow').config()
+import { Hono } from 'hono'
+import { cors } from 'hono/cors'
+import Mustache from 'mustache'
+import yaml from 'js-yaml'
+import { marked } from 'marked'
 
-const environment = process.env.environment
-const cdn = process.env.cdn
+const app = new Hono()
+const ARENA_API = 'https://api.are.na/v2'
 
-// here we declare our site config as cache - this is loaded if there any errors are thrown when trying to get our channel from are.na
-let cache
-if (environment === 'now') {
-  cache = yaml.safeLoad(fs.readFileSync(`${__dirname}/api/config.yaml`, 'utf8'))
-  // now requires `__dirname + ` vs the simpler `./*` for paths here. ref: https://github.com/zeit/ncc/issues/216 (says fixed but is not)
-} else {
-  cache = yaml.safeLoad(fs.readFileSync('./api/config.yaml', 'utf8'))
-}
-const channelCache = require('./api/articles.json')
+// Middleware
+app.use('*', cors())
 
-// Setup Markdown -> HTML
-marked.setOptions({
-  renderer: new marked.Renderer(),
-  gfm: true,
-  breaks: true,
-  sanitize: false,
-  smartLists: true,
-  tables: true,
-  xhtml: true
-})
+// Template cache
+const templates = {}
+async function loadTemplate(templateName, assetsBinding) {
+  if (templates[templateName]) return templates[templateName]
 
-const app = express()
-
-app.use(compression())
-
-if (environment !== 'now') {
-  app.use('/js', express.static('js'))
-  app.use('/stylesheets', express.static('stylesheets'))
-  app.use('/fonts', express.static('fonts'))
-  app.use('/assets', express.static('assets'))
-  app.use('/api', express.static('api'))
+  try {
+    const url = `http://localhost/views/${templateName}.html`
+    const res = await assetsBinding.fetch(url)
+    if (!res.ok) throw new Error(`Template ${templateName} not found`)
+    const text = await res.text()
+    templates[templateName] = text
+    return text
+  } catch (err) {
+    console.error('Template load error:', err)
+    throw err
+  }
 }
 
-app.engine('html', mustacheExpress())
-app.set('view engine', 'html')
-app.set('views', `${__dirname}/views`)
+async function loadPartials(template, assetsBinding, loaded = {}) {
+  const partialRegex = /\{\{>\s*([^\}]+)\s*\}\}/g
+  let match
+  while ((match = partialRegex.exec(template)) !== null) {
+    const name = match[1].trim()
+    if (loaded[name]) continue
+    try {
+      const content = await loadTemplate(name, assetsBinding)
+      loaded[name] = content
+      await loadPartials(content, assetsBinding, loaded)
+    } catch {
+      loaded[name] = `<!-- partial ${name} not found -->`
+    }
+  }
+  return loaded
+}
 
-app.get('/', async function(req, res) {
-  const view = req.query.view
-  const arena = new Arena({ accessToken: process.env.arenaPAT })
-  arena
-    .channel(process.env.arenaChannel)
-    .get({
-      page: 1, // get the first page of results
-      per: 64, // get 64 items per call (max: 100) - play around w this for performance
-      direction: 'desc' // ask API v nicely to sort blocks by most recent
-    })
-    .then(channel => {
-      // fetch our whole are.na channel as `channel`
+async function renderMustache(name, data, assetsBinding) {
+  const template = await loadTemplate(name, assetsBinding)
+  const partials = await loadPartials(template, assetsBinding)
+  return Mustache.render(template, data, partials)
+}
 
-      const config = yaml.safeLoad(channel.metadata.description) // get our site description from our are.na channel description - since it is loaded in as yaml, we can access it's values with `config.key`, ex: for title, we can use `config.details.title`
-      const contents = channel.contents // clean up the results a little bit, and make the channel's contents available as a constant, `contents`
+// Helpers
+function encodeURL(str) {
+  return String(str)
+    .replace(/\s+/g, '-')
+    .toLowerCase()
+}
 
-      // Replace Are.na's "content_html" and "description_html" values with html rendered from the markdown we get from "content" and "description" respectively using marked.js
-      contents.forEach(block => {
-        block.content_html = marked(block.content)
-        block.description_html = marked(block.description)
-        console.log(`${block.id} content_html = ${block.content_html}, and description_html = ${block.description_html}`)
-      })
+// Fetch Are.na channel dynamically
+async function fetchArenaChannel(channelSlug, token) {
+  const url = `${ARENA_API}/channels/${channelSlug}?page=1&per=64&direction=desc`
+  const res = await fetch(url, {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+  if (!res.ok) throw new Error(`Are.na API error ${res.status}`)
+  const channel = await res.json()
 
-      const about = contents.pop() // pop last block (in this case, "about"), out of array, and then pass it to the render below
+  // Render markdown for each block
+  channel.contents.forEach(block => {
+    block.content_html = marked(block.content || '')
+    block.description_html = marked(block.description || '')
+    block.truncTitle = encodeURL(block.title || '')
+  })
 
-      if (view === 'channel') {
-        // append `?view=channel` to the end of your URL to see "channel" as JSON
-        res.send(contents)
-      } else if (view === 'about') {
-        // append `?view=about` to the end of your URL to see "about" as JSON
-        res.send(about)
-      } else {
-        res.render('index.html', {
-          static_url: cdn,
-          config,
-          about,
-          arena: contents // pass our are.na channel contents into the render for use w mustache.js by using `{{arena}}` - see views/arena.html
-        })
-      }
-    })
-    .catch(err => {
-      // handle errors
+  const about = channel.contents.pop()
+  const config = yaml.load(channel.metadata.description || '')
+  return { config, contents: channel.contents, about }
+}
 
-      cache.details.title = 'Error 😭' // change the value of cache.details.title (loaded from ./api/config.yaml) to reflect an error
+// Routes
+app.get('/', async c => {
+  const env = c.env
+  const view = c.req.query('view')
+  const blog = c.req.query('blog')
 
-      console.log(err)
-      res.render('index.html', {
-        title: 'Error 😭',
-        static_url: cdn,
-        config: cache
-      })
-    })
-})
+  try {
+    const { config, contents, about } = await fetchArenaChannel(env.arenaChannel, env.arenaPAT)
+    const data = { static_url: env.cdn, live: env.live, config, about, arena: contents }
 
-app.get('/contact', async function(req, res) {
-  const view = req.query.view
-  const arena = new Arena({ accessToken: process.env.arenaPAT })
-  arena
-    .channel(process.env.arenaChannel)
-    .get({
-      page: 1, // get the first page of results
-      per: 64, // get 64 items per call (max: 100) - play around w this for performance
-      direction: 'desc' // ask API v nicely to sort blocks by most recent
-    })
-    .then(channel => {
-      // fetch our whole are.na channel as `channel`
+    if (view === 'channel') return c.json(contents)
+    if (view) data.open = view
+    if (blog) {
+      const block = contents.find(b => b.id === parseInt(blog))
+      if (block) data.blog = blog
+    }
 
-      const config = yaml.safeLoad(channel.metadata.description) // get our site description from our are.na channel description - since it is loaded in as yaml, we can access it's values with `config.key`, ex: for title, we can use `config.details.title`
-      const contents = channel.contents // clean up the results a little bit, and make the channel's contents available as a constant, `contents`
+    const html = await renderMustache('index', data, env.ASSETS)
+    return c.html(html)
+  } catch (err) {
+    console.error('Error fetching Are.na:', err)
 
-      // Replace Are.na's "content_html" and "description_html" values with html rendered from the markdown we get from "content" and "description" respectively using marked.js
-      contents.forEach(block => {
-        block.content_html = marked(block.content)
-        block.description_html = marked(block.description)
-        console.log(`${block.id} content_html = ${block.content_html}, and description_html = ${block.description_html}`)
-      })
+    const cacheYaml = await env.ASSETS.fetch('http://localhost/api/config.yaml')
+    const cacheText = await cacheYaml.text()
+    const cache = yaml.load(cacheText)
+    cache.details.title = 'Error 😭'
 
-      const about = contents.pop() // pop last block (in this case, "about"), out of array, and then pass it to the render below
-
-      if (view === 'about') {
-        // append `?view=channel` to the end of your URL to see "channel" as JSON
-        res.send(contents)
-      } else if (view === 'about') {
-        // append `?view=about` to the end of your URL to see "about" as JSON
-        res.send(about)
-      } else {
-        res.render('contact.html', {
-          static_url: cdn,
-          config,
-          about,
-          arena: contents // pass our are.na channel contents into the render for use w mustache.js by using `{{arena}}` - see views/arena.html
-        })
-      }
-    })
-    .catch(err => {
-      // handle errors
-
-      cache.details.title = 'Error 😭' // change the value of cache.details.title (loaded from ./api/config.yaml) to reflect an error
-
-      console.log(err)
-      res.render('contact.html', {
-        title: 'Error 😭',
-        static_url: cdn,
-        config: cache
-      })
-    })
-})
-
-app.get('/articles', async function(req, res) {
-  const view = req.query.view
-  const arena = new Arena({ accessToken: process.env.arenaPAT })
-  arena
-    .channel(process.env.arenaChannel)
-    .get({
-      page: 1, // get the first page of results
-      per: 64, // get 64 items per call (max: 100) - play around w this for performance
-      direction: 'desc' // ask API v nicely to sort blocks by most recent
-    })
-    .then(channel => {
-      // fetch our whole are.na channel as `channel`
-
-      const config = yaml.safeLoad(channel.metadata.description) // get our site description from our are.na channel description - since it is loaded in as yaml, we can access it's values with `config.key`, ex: for title, we can use `config.details.title`
-      const contents = channel.contents // clean up the results a little bit, and make the channel's contents available as a constant, `contents`
-
-      // Replace Are.na's "content_html" and "description_html" values with html rendered from the markdown we get from "content" and "description" respectively using marked.js
-      contents.forEach(block => {
-        block.content_html = marked(block.content)
-        block.description_html = marked(block.description)
-        console.log(`${block.id} content_html = ${block.content_html}, and description_html = ${block.description_html}`)
-      })
-
-      contents.forEach(contentItem => {
-        let trunc = contentItem.title
-        trunc = trunc
-          .replace(/\s+/g, '-')
-          .replace('€', 'e')
-          .replace('£', 'e')
-          .replace('$', 's')
-          .toLowerCase()
-        contentItem.truncTitle = trunc
-        // console.log(contentItem.truncTitle)
-      })
-
-      const about = contents.pop() // pop last block (in this case, "about"), out of array, and then pass it to the render below
-
-      const articles = contents.splice(0, contents.length - 8)
-
-      if (view === 'channel') {
-        // @@ -107,6 +121,16 @@ app.get('/articles', async function(req, res) {
-        res.send(contents)
-      } else if (view === 'about') {
-        // append `?view=about` to the end of your URL to see "about" as JSON
-        res.send(about)
-      } else if (view) {
-        // get our URL contents and pass them to the view
-        // const articles = req.query
-        res.render('articles.html', {
-          static_url: cdn,
-          config,
-          articles,
-          about,
-          arena: contents // pass our are.na channel contents into the render for use w mustache.js by using `{{arena}}` - see views/arena.html
-        })
-      } else {
-        res.render('articles.html', {
-          static_url: cdn,
-          config,
-          about,
-          arena: contents // pass our are.na channel contents into the render for use w mustache.js by using `{{arena}}` - see views/arena.html
-        })
-      }
-    })
-    .catch(err => {
-      // handle errors
-
-      cache.details.title = 'Error 😭' // change the value of cache.details.title (loaded from ./api/config.yaml) to reflect an error
-
-      console.log(err)
-      res.render('articles.html', {
-        title: 'Error 😭',
-        static_url: cdn,
-        config: cache
-      })
-    })
-})
-
-app.get('/posts', async function(req, res) {
-  const view = req.query.view
-  const arena = new Arena({ accessToken: process.env.arenaPAT })
-  arena
-    .channel(process.env.arenaChannel)
-    .get({
-      page: 1, // get the first page of results
-      per: 64, // get 64 items per call (max: 100) - play around w this for performance
-      direction: 'desc' // ask API v nicely to sort blocks by most recent
-    })
-    .then(channel => {
-      // fetch our whole are.na channel as `channel`
-
-      const config = yaml.safeLoad(channel.metadata.description) // get our site description from our are.na channel description - since it is loaded in as yaml, we can access it's values with `config.key`, ex: for title, we can use `config.details.title`
-      const contents = channel.contents // clean up the results a little bit, and make the channel's contents available as a constant, `contents`
-
-      const formatDate = tinydate('{YYYY}/{MM}/{DD}, at {HH}:{mm}') // format date string (taken from note in writing.html)
-      contents.forEach(block => {
-        const createdDate = new Date(block.created_at) // get the date for each block using `created_at` and turn them into js date objects
-        block.date = formatDate(createdDate) // format our createdDate objects by passing them into our `formatDate()` function, and add them as `date` to our channel contents
-        // console.log(`${block.title} was created on ${block.date}`)
-      })
-
-      // Replace Are.na's "content_html" and "description_html" values with html rendered from the markdown we get from "content" and "description" respectively using marked.js
-      contents.forEach(block => {
-        block.content_html = marked(block.content)
-        block.description_html = marked(block.description)
-        console.log(`${block.id} content_html = ${block.content_html}, and description_html = ${block.description_html}`)
-      })
-
-      contents.forEach(contentItem => {
-        let trunc = contentItem.title
-        trunc = trunc
-          .replace(/\s+/g, '-')
-          .replace('€', 'e')
-          .replace('£', 'e')
-          .replace('$', 's')
-          .toLowerCase()
-        contentItem.truncTitle = trunc
-        // console.log(contentItem.truncTitle)
-      })
-
-      const about = contents.pop() // pop last block (in this case, "about"), out of array, and then pass it to the render below
-
-      if (view === 'channel') {
-        // @@ -107,6 +121,16 @@ app.get('/articles', async function(req, res) {
-        res.send(contents)
-      } else if (view === 'about') {
-        // append `?view=about` to the end of your URL to see "about" as JSON
-        res.send(about)
-      } else if (view) {
-        // get our URL contents and pass them to the view
-        const articles = req.query
-        res.render('posts.html', {
-          static_url: cdn,
-          config,
-          articles,
-          about,
-          arena: contents // pass our are.na channel contents into the render for use w mustache.js by using `{{arena}}` - see views/arena.html
-        })
-      } else {
-        res.render('posts.html', {
-          static_url: cdn,
-          config,
-          about,
-          arena: contents // pass our are.na channel contents into the render for use w mustache.js by using `{{arena}}` - see views/arena.html
-        })
-      }
-    })
-    .catch(err => {
-      // handle errors
-
-      cache.details.title = 'Error 😭' // change the value of cache.details.title (loaded from ./api/config.yaml) to reflect an error
-
-      console.log(err)
-      res.render('posts.html', {
-        title: 'Error 😭',
-        static_url: cdn,
-        config: cache
-      })
-    })
-})
-
-app.get('/support', async function(req, res) {
-  const view = req.query.view
-  const arena = new Arena({ accessToken: process.env.arenaPAT })
-  arena
-    .channel(process.env.arenaChannel)
-    .get({
-      page: 1, // get the first page of results
-      per: 64, // get 64 items per call (max: 100) - play around w this for performance
-      direction: 'desc' // ask API v nicely to sort blocks by most recent
-    })
-    .then(channel => {
-      // fetch our whole are.na channel as `channel`
-
-      const config = yaml.safeLoad(channel.metadata.description) // get our site description from our are.na channel description - since it is loaded in as yaml, we can access it's values with `config.key`, ex: for title, we can use `config.details.title`
-      const contents = channel.contents // clean up the results a little bit, and make the channel's contents available as a constant, `contents`
-
-      // Replace Are.na's "content_html" and "description_html" values with html rendered from the markdown we get from "content" and "description" respectively using marked.js
-      contents.forEach(block => {
-        block.content_html = marked(block.content)
-        block.description_html = marked(block.description)
-        console.log(`${block.id} content_html = ${block.content_html}, and description_html = ${block.description_html}`)
-      })
-
-      const about = contents.pop() // pop last block (in this case, "about"), out of array, and then pass it to the render below
-
-      if (view === 'about') {
-        // append `?view=channel` to the end of your URL to see "channel" as JSON
-        res.send(contents)
-      } else if (view === 'about') {
-        // append `?view=about` to the end of your URL to see "about" as JSON
-        res.send(about)
-      } else {
-        res.render('support.html', {
-          static_url: cdn,
-          config,
-          about,
-          arena: contents // pass our are.na channel contents into the render for use w mustache.js by using `{{arena}}` - see views/arena.html
-        })
-      }
-    })
-    .catch(err => {
-      // handle errors
-
-      cache.details.title = 'Error 😭' // change the value of cache.details.title (loaded from ./api/config.yaml) to reflect an error
-
-      console.log(err)
-      res.render('support.html', {
-        title: 'Error 😭',
-        static_url: cdn,
-        config: cache
-      })
-    })
-})
-
-app.get('/pandemic-inquiries', async function(req, res) {
-  const view = req.query.view
-  const arena = new Arena({ accessToken: process.env.arenaPAT })
-  arena
-    .channel(process.env.arenaChannel)
-    .get({
-      page: 1, // get the first page of results
-      per: 64, // get 64 items per call (max: 100) - play around w this for performance
-      direction: 'desc' // ask API v nicely to sort blocks by most recent
-    })
-    .then(channel => {
-      // fetch our whole are.na channel as `channel`
-
-      const config = yaml.safeLoad(channel.metadata.description) // get our site description from our are.na channel description - since it is loaded in as yaml, we can access it's values with `config.key`, ex: for title, we can use `config.details.title`
-      const contents = channel.contents // clean up the results a little bit, and make the channel's contents available as a constant, `contents`
-
-      // Replace Are.na's "content_html" and "description_html" values with html rendered from the markdown we get from "content" and "description" respectively using marked.js
-      contents.forEach(block => {
-        block.content_html = marked(block.content)
-        block.description_html = marked(block.description)
-        console.log(`${block.id} content_html = ${block.content_html}, and description_html = ${block.description_html}`)
-      })
-
-      contents.forEach(contentItem => {
-        let trunc = contentItem.title
-        trunc = trunc
-          .replace(/\s+/g, '-')
-          .replace('€', 'e')
-          .replace('£', 'e')
-          .replace('$', 's')
-          .toLowerCase()
-        contentItem.truncTitle = trunc
-        // console.log(contentItem.truncTitle)
-      })
-
-      const about = contents.pop() // pop last block (in this case, "about"), out of array, and then pass it to the render below
-      const pandemic = contents.splice(contents.length - 8, 8)
-
-      if (view === 'channel') {
-        // @@ -107,6 +121,16 @@ app.get('/pandemic-journal', async function(req, res) {
-        res.send(contents)
-      } else if (view === 'about') {
-        // append `?view=about` to the end of your URL to see "about" as JSON
-        res.send(about)
-      } else if (view) {
-        // get our URL contents and pass them to the view
-
-        res.render('pandemic-inquiries.html', {
-          static_url: cdn,
-          config,
-          pandemic,
-          about,
-          arena: contents // pass our are.na channel contents into the render for use w mustache.js by using `{{arena}}` - see views/arena.html
-        })
-      } else {
-        res.render('pandemic-inquiries.html', {
-          static_url: cdn,
-          config,
-          about,
-          arena: contents // pass our are.na channel contents into the render for use w mustache.js by using `{{arena}}` - see views/arena.html
-        })
-      }
-    })
-    .catch(err => {
-      // handle errors
-
-      cache.details.title = 'Error 😭' // change the value of cache.details.title (loaded from ./api/config.yaml) to reflect an error
-
-      console.log(err)
-      res.render('pandemic-inquiries.html', {
-        title: 'Error 😭',
-        static_url: cdn,
-        config: cache
-      })
-    })
-})
-
-app.use(function(req, res) {
-  res.status(404)
-
-  if (req.accepts('html')) {
-    res.render('404', {
-      url: req.url,
-      static_url: '...',
-      title: 'Page not found'
-    })
-  } else {
-    res.send('404')
+    const html = await renderMustache(
+      'index',
+      { static_url: env.cdn, live: env.live, config: cache, loading: [{ status: 500, message: 'Error loading Are.na' }] },
+      env.ASSETS
+    )
+    return c.html(html, 500)
   }
 })
 
-if (environment !== 'now') {
-  const port = process.env.PORT || 3000
-  app.listen(port, function() {
-    console.log(`Up on port ${port} 🥚`)
-  })
-} else {
-  app.listen()
-}
-// what's happening here ?
-// `now` does not like it when ports are specified for it to use, or when options are set inside `app.listen(...)`. However, nodemon _does_ like having options set for ports, so this sets options based on what you are current running/building the server with
-// if you are running hot reloading w `$ nodemon`, `environment` will be "development", and the server will run w a specified PORT (in this case, 3000)
-// if you are compiling a `now` build w `$ now dev`, or `now`, `environment` will be "now", and now will listen with just `app.listen()`
-// you can configure the production environment in `.env` :)
+app.get('/articles', async c => {
+  const env = c.env
+  try {
+    // Fetch channel from Are.na
+    const { config, contents, about } = await fetchArenaChannel(env.arenaChannel, env.arenaPAT)
+
+    // Separate articles if needed (example: last 8 blocks are not articles)
+    const articles = contents.slice(0, contents.length - 8)
+    const arena = contents.slice(contents.length - 8) // remaining blocks
+
+    const data = {
+      static_url: env.cdn,
+      live: env.live,
+      config,
+      about,
+      articles,
+      arena
+    }
+
+    // Render Mustache template from /views/articles.html
+    const html = await renderMustache('articles', data, env.ASSETS)
+    return c.html(html)
+  } catch (err) {
+    console.error('Error loading /articles:', err)
+
+    // fallback config
+    const cacheYaml = await env.ASSETS.fetch('http://localhost/api/config.yaml')
+    const cacheText = await cacheYaml.text()
+    const cache = yaml.load(cacheText)
+    cache.details.title = 'Error 😭'
+
+    const html = await renderMustache(
+      'articles',
+      { static_url: env.cdn, live: env.live, config: cache, loading: [{ status: 500, message: 'Error loading Are.na' }] },
+      env.ASSETS
+    )
+    return c.html(html, 500)
+  }
+})
+
+// Example: Blog post route
+app.get('/blog/:blogId', async c => {
+  const blogId = c.req.param('blogId')
+  const env = c.env
+
+  try {
+    const blockRes = await fetch(`${ARENA_API}/blocks/${blogId}`, { headers: { Authorization: `Bearer ${env.arenaPAT}` } })
+    if (!blockRes.ok) throw new Error(`Are.na block fetch error ${blockRes.status}`)
+    const block = await blockRes.json()
+
+    const cacheYaml = await env.ASSETS.fetch('http://localhost/api/config.yaml')
+    const cacheText = await cacheYaml.text()
+    const config = yaml.load(cacheText)
+
+    const blogCacheRes = await env.ASSETS.fetch('http://localhost/api/articles.json')
+    const channelCache = await blogCacheRes.json()
+
+    const html = await renderMustache(
+      'blog',
+      { static_url: env.cdn, config, live: env.live, blogPost: block, arena: channelCache, loading: [{ status: 200, message: `Loaded "${block.title}"` }] },
+      env.ASSETS
+    )
+    return c.html(html)
+  } catch (err) {
+    console.error('Error loading blog block:', err)
+    const html = await renderMustache('blog', { static_url: env.cdn, live: env.live, loading: [{ status: 503, message: `Error: ${err}` }] }, env.ASSETS)
+    return c.html(html, 503)
+  }
+})
+
+app.get('/posts', async c => {
+  const env = c.env
+  try {
+    const { config, contents, about } = await fetchArenaChannel(env.arenaChannel, env.arenaPAT)
+
+    // Format dates & truncate titles
+    const tinydate = date => new Date(date).toLocaleString() // simple replacement
+    contents.forEach(block => {
+      block.date = tinydate(block.created_at)
+      block.truncTitle = encodeURL(block.title)
+    })
+
+    const html = await renderMustache(
+      'posts',
+      {
+        static_url: env.cdn,
+        live: env.live,
+        config,
+        about,
+        arena: contents
+      },
+      env.ASSETS
+    )
+
+    return c.html(html)
+  } catch (err) {
+    console.error('Error loading /posts:', err)
+    const html = await renderMustache(
+      'posts',
+      {
+        static_url: env.cdn,
+        live: env.live,
+        config: { details: { title: 'Error 😭' } },
+        loading: [{ status: 500, message: 'Error loading Are.na' }]
+      },
+      env.ASSETS
+    )
+    return c.html(html, 500)
+  }
+})
+
+app.get('/pandemic-inquiries', async c => {
+  const env = c.env
+  try {
+    const { config, contents, about } = await fetchArenaChannel(env.arenaChannel, env.arenaPAT)
+
+    // Last 8 blocks are pandemic inquiries
+    const pandemic = contents.slice(-8)
+    const arena = contents.slice(0, contents.length - 8)
+
+    const html = await renderMustache(
+      'pandemic-inquiries',
+      {
+        static_url: env.cdn,
+        live: env.live,
+        config,
+        about,
+        pandemic,
+        arena
+      },
+      env.ASSETS
+    )
+
+    return c.html(html)
+  } catch (err) {
+    console.error('Error loading /pandemic-inquiries:', err)
+    const html = await renderMustache(
+      'pandemic-inquiries',
+      {
+        static_url: env.cdn,
+        live: env.live,
+        config: { details: { title: 'Error 😭' } },
+        loading: [{ status: 500, message: 'Error loading Are.na' }]
+      },
+      env.ASSETS
+    )
+    return c.html(html, 500)
+  }
+})
+
+app.get('/contact', async c => {
+  const env = c.env
+  try {
+    const cacheYaml = await env.ASSETS.fetch('http://localhost/api/config.yaml')
+    const cacheText = await cacheYaml.text()
+    const config = yaml.load(cacheText)
+
+    const html = await renderMustache(
+      'contact/feedback_form',
+      {
+        static_url: env.cdn,
+        live: env.live,
+        config
+      },
+      env.ASSETS
+    )
+
+    return c.html(html)
+  } catch (err) {
+    console.error('Error loading /contact:', err)
+    const html = await renderMustache(
+      'contact/error_message',
+      {
+        static_url: env.cdn,
+        live: env.live,
+        config: { details: { title: 'Error 😭' } }
+      },
+      env.ASSETS
+    )
+    return c.html(html, 500)
+  }
+})
+
+app.get('/contact/thank_you', async c => {
+  const env = c.env
+  const html = await renderMustache(
+    'contact/thank_you',
+    {
+      static_url: env.cdn,
+      live: env.live
+    },
+    env.ASSETS
+  )
+  return c.html(html)
+})
+
+app.notFound(async c => {
+  const env = c.env
+  const html = await renderMustache('404', { url: c.req.url }, env.ASSETS)
+  return c.html(html, 404)
+})
+
+// Static routes
+app.get('/stylesheets/*', c => c.env.ASSETS.fetch(new Request(`http://localhost${c.req.path}`)))
+app.get('/js/*', c => c.env.ASSETS.fetch(new Request(`http://localhost${c.req.path}`)))
+app.get('/assets/*', c => c.env.ASSETS.fetch(new Request(`http://localhost${c.req.path}`)))
+app.get('/fonts/*', c => c.env.ASSETS.fetch(new Request(`http://localhost${c.req.path}`)))
+
+// Favicon
+app.get('/favicon.ico', c => c.body(null, 204))
+
+// 404
+app.notFound(c => {
+  const html = `<h1>404 - Page not found</h1><p>The page ${c.req.url} could not be found.</p>`
+  return c.html(html, 404)
+})
+
+export default app
