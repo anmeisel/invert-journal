@@ -317,6 +317,37 @@ app.notFound(async c => {
   return c.html(html, 404)
 })
 
+app.post('/contact/send_mail', async c => {
+  const formData = await c.req.formData()
+  const email_address = formData.get('email_address')
+  const first_name = formData.get('first_name')
+  const comments = formData.get('comments')
+
+  // Basic validation
+  if (!email_address || !first_name) {
+    return c.redirect('/contact/error_message')
+  }
+
+  // Prevent email injection
+  const isInjected = str => /(\n|\r|\t|%0A|%0D|%08|%09)/i.t
+  est(str)
+  if (isInjected(email_address) || isInjected(first_name) || isInjected(comments)) {
+    return c.redirect('/contact/error_message')
+  }
+
+  // Log the form submission
+  console.log(`Contact form 
+  submission:
+      From: ${first_name} 
+  <${email_address}>
+      Comments: ${comments}
+    `)
+
+  // TODO: Send email using  MailChannels or similar
+
+  return c.redirect('/contact/thank_you')
+})
+
 // Static routes
 app.get('/stylesheets/*', c => c.env.ASSETS.fetch(new Request(`http://localhost${c.req.path}`)))
 app.get('/js/*', c => c.env.ASSETS.fetch(new Request(`http://localhost${c.req.path}`)))
