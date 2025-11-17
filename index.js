@@ -329,19 +329,16 @@ app.post('/contact/send_mail', async c => {
   }
 
   // Prevent email injection
-  const isInjected = str => /(\n|\r|\t|%0A|%0D|%08|%09)/i.t
-  est(str)
+  const isInjected = str => /(\n|\r|\t|%0A|%0D|%08|%09)/i.test(str)
   if (isInjected(email_address) || isInjected(first_name) || isInjected(comments)) {
     return c.redirect('/contact/error_message')
   }
 
   // Log the form submission
-  console.log(`Contact form 
-  submission:
-      From: ${first_name} 
-  <${email_address}>
-      Comments: ${comments}
-    `)
+  console.log(`Contact form submission:
+    From: ${first_name} <${email_address}>
+    Comments: ${comments}
+  `)
 
   // TODO: Send email using  MailChannels or similar
 
