@@ -1,23 +1,28 @@
 <!DOCTYPE html>
-<title>Feedback Form</title>	
+<title>Feedback Form</title>
 
 <h1>Feedback Form</h1>
 
-<form method="post" action="send_mail.php">
-<p>
-<label>First Name
-<input type="text" name="first_name" required>
-</label> 
-</p>
-<p>
-<label>Email 
-<input type="email" name="email_address">
-</label>
-</p>
-<p>
-<label>Comments
-<textarea name="comments" maxlength="500"></textarea>
-</label>
-</p>
-<p><button>Submit the form</button></p>
+<form method="post" action="/contact/send_mail">
+    <p>
+        <label>
+            First Name
+            <input type="text" name="first_name" required />
+        </label>
+    </p>
+    <p>
+        <label>
+            Email
+            <input type="email" name="email_address" required />
+        </label>
+    </p>
+    <p>
+        <label>
+            Comments
+            <textarea name="comments" maxlength="500"></textarea>
+        </label>
+    </p>
+    <p>
+        <button type="submit">Submit the form</button>
+    </p>
 </form>
