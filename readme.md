@@ -6,7 +6,7 @@
 
 1. install dependencies
     ```bash
-    $ yarn
+    $ yarn install
     ```
 2. add `.env` file — [keys 🔗](https://www.notion.so/4us4others/Ashton-Mills-f4432cc8c5ea45a498cef317e62a9835#057fb52fc7b24fc0b9c8ba52dc2b8c52)
 3. add `.env.development` file ⤵
